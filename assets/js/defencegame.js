@@ -82,7 +82,7 @@ class DefenceGame {
         if(this.isFieldFree(x, y)) {
             let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
 
-            if(tinydefence.game.model.points >= tower.price) {
+            if(this.model.points >= tower.price) {
                 console.log("buy");
                 this.addTower(tower, x, y);
                 this.model.points -= tower.price;
