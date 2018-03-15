@@ -12,3 +12,10 @@ TinyDefence 2 is a simple implementation of the tower defence principe (build to
  - sprites and animations
  - maps are creatable with `Tiled`
  - automatic way detection
+
+## Create your own level
+You want to change the waves to make the game more difficult or easy? Than open up the file `assets/js/maps.js`. There is each wave for the first map defined.
+
+If you want to create a complete new map than install the map editor `Tiled` and create a copy of `assets/maps/map.tmx`. With Tiled you can open up your copy and create your own map. After that export your map as JSON file next to your copy and intergate it into the `assets/js/maps.js`. 
+
+Share your map with other people and start a pull request.
