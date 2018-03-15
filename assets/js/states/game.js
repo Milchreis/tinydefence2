@@ -20,9 +20,16 @@ tinydefence.rungame = {
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
         
-        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, this.game);
+        this.model = {
+            currentMapIndex: tinydefence.game.model.currentMapIndex,
+            points: tinydefence.game.model.points,
+            currentWave: tinydefence.game.model.currentWave,
+            lives: tinydefence.game.model.lives,
+        }
         
-        this.model = tinydefence.game.model;
+        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, this.game, this.model);
+        this.gameEnd = false;
+        
         this.model.currentWave = -1;
         this.nextWave();
         
@@ -34,16 +41,24 @@ tinydefence.rungame = {
     },
 
     nextWave() {
-        this.model.currentWave += 1;
-        // Get current wave and create a clone
-        this.wave = Object.assign({}, this.currentMap.waves[this.model.currentWave]);
+        if(this.model.currentWave < this.currentMap.waves.length) {
 
-        this.nextEnemy = this.game.time.now;
-        this.wavestart = this.game.time.now + 5000;
+            this.model.currentWave += 1;
+            // Get current wave and create a clone
+            this.wave = Object.assign({}, this.currentMap.waves[this.model.currentWave]);
+    
+            this.nextEnemy = this.game.time.now;
+            this.wavestart = this.game.time.now + 5000;
+        }
     },
     
     update: function() {
         
+        // Go back to menu on click if the game is over
+        if(this.gameEnd && (this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown)) {
+            this.game.state.start("Menu");
+        }
+
         // Get a small warm up phase
         if(this.game.time.now < this.wavestart) {
             console.log("start in " + Math.floor((this.wavestart - this.game.time.now)/1000));
@@ -58,7 +73,7 @@ tinydefence.rungame = {
             }
     
             // All enemies dead?
-            if(this.defencegame.enemies.length === 0) {
+            if(this.defencegame.enemies.length === 0 && this.gameEnd === false) {
                 this.nextWave();
             }
         }
@@ -67,15 +82,17 @@ tinydefence.rungame = {
         
         // Update score
         this.scoreText.setText(
-            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.points}`);
+            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.points}     Lives: ${this.model.lives}`);
             
         if(this.model.currentWave > this.currentMap.waves.length) {
             this.scoreText.setText("You won the game");
+            this.gameEnd = true;
         }
         
         // Is the player dead?
-        if(this.defencegame.enemies.filter(e => e.targetReached).length > this.model.lives) {
+        if(this.model.lives <= 0) {
             this.scoreText.setText("You lost the game");
+            this.gameEnd = true;
         }
     },
         

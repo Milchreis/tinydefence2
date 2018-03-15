@@ -1,6 +1,6 @@
 class DefenceGame {
     
-    constructor(tileWidth, tileHeight, width, height, map, game) {
+    constructor(tileWidth, tileHeight, width, height, map, game, model) {
         
         this.game = game;
         this.twidth = tileWidth || 16;
@@ -9,7 +9,8 @@ class DefenceGame {
         this.height = height;
         
         this.map = map;
-        this.mapMeta = tinydefence.maps[tinydefence.game.model.currentMapIndex];
+        this.model = model;
+        this.mapMeta = tinydefence.maps[this.model.currentMapIndex];
 
         this.towermap = new Array(map.length);
         this.towers = [];
@@ -36,6 +37,7 @@ class DefenceGame {
         enemy.sprite.health = enemy.maxhealth;
         enemy.speed = enemySpeed || enemy.speed;
         enemy.points = points || enemy.points;
+        enemy.onTargetReached(() => this.model.lives -= 1);
         this.enemies.push(enemy);
     }
 
@@ -70,9 +72,9 @@ class DefenceGame {
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             e.die();
-            tinydefence.game.model.points += e.points;
+            this.model.points += e.points;
         });
-        this.enemies = this.enemies.filter(e => e.sprite.health > 0.0);
+        this.enemies = this.enemies.filter(e => e.sprite.health > 0.0 && e.targetReached === false);
         this.enemies.forEach(e => e.update());
     }
 
@@ -83,7 +85,7 @@ class DefenceGame {
             if(tinydefence.game.model.points >= tower.price) {
                 console.log("buy");
                 this.addTower(tower, x, y);
-                tinydefence.game.model.points -= tower.price;
+                this.model.points -= tower.price;
             } else {
                 console.log("not enougth money");
                 tower.sprite.destroy();

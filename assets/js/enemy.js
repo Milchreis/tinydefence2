@@ -48,6 +48,9 @@ class Enemy {
             if(this.waypointIndex >= this.waypoints.length) {
                 this.die();
                 this.targetReached = true;
+                if(typeof this.onTargetReachedCallback === 'function') {
+                    this.onTargetReachedCallback();
+                }
             } else {
                 this.nextWaypoint = this.waypoints[this.waypointIndex];
             }
@@ -72,15 +75,21 @@ class Enemy {
         }
 
         // Draw health bar
-        let healthRatio = this.sprite.health / this.maxhealth;
-        this.graphics.lineStyle(0);
-        this.graphics.beginFill(0xFF0000, 1);
-        this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, this.sprite.width - 5, 1);
-        this.graphics.beginFill(0x00FF00, 1);
-        this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, (this.sprite.width - 5) * healthRatio, 1);
-        this.graphics.endFill();
+        if(this.sprite.health > 0 && this.sprite.body !== null) {
+            let healthRatio = this.sprite.health / this.maxhealth;
+            this.graphics.lineStyle(0);
+            this.graphics.beginFill(0xFF0000, 1);
+            this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, this.sprite.width - 5, 1);
+            this.graphics.beginFill(0x00FF00, 1);
+            this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, (this.sprite.width - 5) * healthRatio, 1);
+            this.graphics.endFill();
+        }
     }
     
+    onTargetReached(callback) {
+        this.onTargetReachedCallback = callback;
+    }
+
     die() {
         this.graphics.clear();
         this.sprite.body.velocity.x = 0;

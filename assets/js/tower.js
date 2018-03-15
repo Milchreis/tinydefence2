@@ -35,7 +35,7 @@ class Tower {
     }
 
     searchForEnemy(enemies) {
-        let enemiesInRange = enemies.filter(e => this.isInRange(e.sprite.body.x, e.sprite.body.y, e.sprite.body.width));
+        let enemiesInRange = enemies.filter(e => e.sprite.body !== null && this.isInRange(e.sprite.body.x, e.sprite.body.y, e.sprite.body.width));
         if(enemiesInRange.length > 0) {
             this.focusedEnemy = enemiesInRange[0];
         }
