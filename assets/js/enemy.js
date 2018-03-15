@@ -6,6 +6,7 @@ class Enemy {
 		this.maxhealth = 10.0;
         this.points = 0.5;
         this.speed = 10;
+        this.targetReached = false;
 
         this.waypoints = waypoints;
         this.waypointIndex = 0;
@@ -46,6 +47,7 @@ class Enemy {
             // last waypoint reached?
             if(this.waypointIndex >= this.waypoints.length) {
                 this.die();
+                this.targetReached = true;
             } else {
                 this.nextWaypoint = this.waypoints[this.waypointIndex];
             }
@@ -70,12 +72,12 @@ class Enemy {
         }
 
         // Draw health bar
-        let healthInPercent = this.sprite.health / this.maxhealth;
+        let healthRatio = this.sprite.health / this.maxhealth;
         this.graphics.lineStyle(0);
         this.graphics.beginFill(0xFF0000, 1);
         this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, this.sprite.width - 5, 1);
         this.graphics.beginFill(0x00FF00, 1);
-        this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, (this.sprite.width - 5) * healthInPercent, 1);
+        this.graphics.drawRect(this.sprite.body.x + 2, this.sprite.body.y + this.sprite.height, (this.sprite.width - 5) * healthRatio, 1);
         this.graphics.endFill();
     }
     

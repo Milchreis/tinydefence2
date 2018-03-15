@@ -1,6 +1,6 @@
 var tinydefence = tinydefence || {};
 
-tinydefence.game = new Phaser.Game(480, 240, Phaser.AUTO, 'game', null, false, false);
+tinydefence.game = new Phaser.Game(480, 260, Phaser.AUTO, 'game', null, false, false);
 
 
 tinydefence.game.state.add("Boot", tinydefence.boot);
@@ -10,8 +10,9 @@ tinydefence.game.state.add("Game", tinydefence.rungame);
 
 tinydefence.game.model = {
     currentMapIndex: 0,
-    points: 100,
+    points: 1000,
     currentWave: 0,
+    lives: 10
 }
 
 tinydefence.game.state.start("Boot");

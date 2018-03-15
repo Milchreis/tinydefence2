@@ -6,7 +6,10 @@ tinydefence.rungame = {
     },
 
     create: function() {
+        // Set cavans background
+        this.game.stage.backgroundColor = "#1e1a17";
         
+        // Load current map
         this.currentMap = tinydefence.maps[tinydefence.game.model.currentMapIndex];
         
         // Create tilemap
@@ -17,15 +20,17 @@ tinydefence.rungame = {
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
         
-        this.tilemap = new DefenceGame(16, 16, 30, 15, mapdata, this.game);
+        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, this.game);
         
         this.model = tinydefence.game.model;
         this.model.currentWave = -1;
         this.nextWave();
         
         this.scoreText = this.game.add.bitmapText(
-            this.game.width - 150, this.game.height - 30,
-            'font1', `Wave: ${this.model.currentWave}/${this.currentMap.waves.length}, Credits: ${this.model.points}`, 12);
+            4, this.game.height - 16,
+            'font1', 
+            "",
+            16);
     },
 
     nextWave() {
@@ -48,23 +53,30 @@ tinydefence.rungame = {
             // Drop new enemies?
             if(this.game.time.now > this.nextEnemy && this.wave.maxEnemies > 0) {
                 this.wave.maxEnemies -= 1;
-                this.tilemap.addEnemy(this.wave.enemyHealth, this.wave.enemySpeed, this.wave.points);
+                this.defencegame.addEnemy(this.wave.enemyHealth, this.wave.enemySpeed, this.wave.points);
                 this.nextEnemy = this.game.time.now + this.wave.dropInMillis;
             }
     
             // All enemies dead?
-            if(this.tilemap.enemies.length === 0) {
+            if(this.defencegame.enemies.length === 0) {
                 this.nextWave();
             }
-    
-            // Is the player dead?
         }
         
-        this.tilemap.update();
-
+        this.defencegame.update();
+        
         // Update score
         this.scoreText.setText(
-            `Wave: ${this.model.currentWave}/${this.currentMap.waves.length}, Credits: ${this.model.points}`);
+            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.points}`);
+            
+        if(this.model.currentWave > this.currentMap.waves.length) {
+            this.scoreText.setText("You won the game");
+        }
+        
+        // Is the player dead?
+        if(this.defencegame.enemies.filter(e => e.targetReached).length > this.model.lives) {
+            this.scoreText.setText("You lost the game");
+        }
     },
-
+        
 }
