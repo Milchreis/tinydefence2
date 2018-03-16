@@ -2,17 +2,20 @@ var tinydefence = tinydefence || {};
 
 
 tinydefence.maps = [
+    
     {
         // Key for this map
-        key: 'level1',
+        key: 'BeachDefense',
         // Path to map data
-        data: 'assets/maps/map1.json',
+        data: 'assets/maps/BeachDefense/map.json',
+        // Path to map sprite
+        sprite: 'assets/maps/BeachDefense/map.png',
         // Readable name for this map/level
-        name: 'Level 1',
+        name: 'Beach Defense',
         // Start point for the enemies
-        start: {x: 0, y: 1},
+        start: {x: 0, y: 10},
         // End point for the enemies
-        end: {x: 16, y: 14},
+        end: {x: 29, y: 10},
         // Waves
         waves: [
             {dropInMillis: 1500, maxEnemies: 2,  enemyHealth: 10, enemySpeed: 10, points: 5},
@@ -27,17 +30,17 @@ tinydefence.maps = [
     },
     {
         // Key for this map
-        key: 'level2',
+        key: 'level1',
         // Path to map data
-        data: 'assets/maps/BeachDefense/map.json',
+        data: 'assets/maps/Level1/map.json',
         // Path to map sprite
-        sprite: 'assets/maps/BeachDefense/map.png',
+        sprite: 'assets/maps/Level1/map.png',
         // Readable name for this map/level
-        name: 'Beach Defense',
+        name: 'Level 1',
         // Start point for the enemies
-        start: {x: 0, y: 10},
+        start: {x: 0, y: 1},
         // End point for the enemies
-        end: {x: 29, y: 10},
+        end: {x: 16, y: 14},
         // Waves
         waves: [
             {dropInMillis: 1500, maxEnemies: 2,  enemyHealth: 10, enemySpeed: 10, points: 5},
