@@ -41,19 +41,6 @@
          "tilecount":28,
          "tileheight":16,
          "tilewidth":16
-        }, 
-        {
-         "columns":7,
-         "firstgid":29,
-         "image":"..\/images\/sprites.png",
-         "imageheight":64,
-         "imagewidth":112,
-         "margin":0,
-         "name":"Sprites",
-         "spacing":0,
-         "tilecount":28,
-         "tileheight":16,
-         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
