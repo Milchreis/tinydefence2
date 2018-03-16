@@ -7,7 +7,7 @@ TinyDefence 2 is a simple implementation of the tower defence principe (build to
 
 **[Play it here](https://milchreis.github.io/tinydefence2/index.html)**
 
-## Approvments to TinyDefence 1
+## Improvements over TinyDefence 1
  - playable in modern browser
  - sprites and animations
  - maps are creatable with `Tiled`
