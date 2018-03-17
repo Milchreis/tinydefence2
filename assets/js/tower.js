@@ -16,32 +16,9 @@ class Tower {
 
         this.focusedEnemy= undefined;
 
+        this.x = x;
+        this.y = y;
         this.game = game;
-        
-        this.sprite = game.add.sprite(x, y, 'tower');
-        this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-        
-        this.animation = this.sprite.animations.add('idle', [2], 4, true);
-        this.sprite.animations.play('idle');
-        
-        this.shootAnimation = this.sprite.animations.add('shoot', [1, 0, 1], 12, false);
-        this.shootAnimation.onComplete.add(sprite => sprite.animations.play('idle'));
-        
-        this.bullets = this.game.add.group();
-        this.bullets.createMultiple(50, 'bullet');
-        this.game.physics.enable(this.bullets, Phaser.Physics.ARCADE);
-        this.bullets.setAll('anchor.x', 0.5);
-        this.bullets.setAll('anchor.y', 0.5);
-        this.bullets.setAll('outOfBoundsKill', true);
-
-        // Hover info
-        this.graphics = this.game.add.graphics(0, 0);
-        this.statsText = this.game.add.bitmapText(
-            this.sprite.body.x + this.sprite.width, 
-            this.sprite.body.y + this.sprite.height,
-            'font1', 
-            "",
-            16);
     }
 
     searchForEnemy(enemies) {
@@ -99,10 +76,11 @@ class Tower {
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius * 2);
+        // 1 decimal digit
         this.statsText.setText("Canon L." + this.tier
-            + "\nDamage: " + this.strength
+            + "\nDamage: " + Math.round(this.strength * 10) / 10
             + "\nRadius: " + Math.round(this.radius / 16 * 10) / 10 // show radius in tiles
-            + "\nReload: " + this.attackPause / 1000);
+            + "\nReload: " + Math.round(this.attackPause / 100) / 10);
         // this.game.upgradePriceText.setText(` (${this.getPrice(this.tier + 1)})`);
     }
 
@@ -128,15 +106,42 @@ class Tower {
     isInRange(x, y, width) {
         let dx = (x - this.sprite.x) * (x - this.sprite.x)
         let dy = (y - this.sprite.y) * (y - this.sprite.y)
-        return Math.sqrt(dx + dy) < this.radius + width/2;
+        return Math.sqrt(dx + dy) < this.radius + width / 2;
+    }
+
+    build() {
+        this.sprite = this.game.add.sprite(this.x, this.y, 'tower');
+        this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+        
+        this.animation = this.sprite.animations.add('idle', [2], 4, true);
+        this.sprite.animations.play('idle');
+        
+        this.shootAnimation = this.sprite.animations.add('shoot', [1, 0, 1], 12, false);
+        this.shootAnimation.onComplete.add(sprite => sprite.animations.play('idle'));
+        
+        this.bullets = this.game.add.group();
+        this.bullets.createMultiple(50, 'bullet');
+        this.game.physics.enable(this.bullets, Phaser.Physics.ARCADE);
+        this.bullets.setAll('anchor.x', 0.5);
+        this.bullets.setAll('anchor.y', 0.5);
+        this.bullets.setAll('outOfBoundsKill', true);
+
+        // Hover info
+        this.graphics = this.game.add.graphics(0, 0);
+        this.statsText = this.game.add.bitmapText(
+            this.sprite.body.x + this.sprite.width, 
+            this.sprite.body.y + this.sprite.height,
+            'font1', 
+            "",
+            16);
     }
 
     upgrade() {
         console.log("upgrading tower");
         this.tier ++;
-        this.radius += Math.round(this.radius * 0.1);
-        this.strength += this.strength * 1;
-        this.attackPause -= Math.round(this.attackPause * 0.2);
+        this.radius += this.radius * 0.1;
+        this.strength += this.strength * 0.95;
+        this.attackPause -= this.attackPause * 0.15;
     }
 
     getPrice(tier) {

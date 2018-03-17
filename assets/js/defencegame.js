@@ -95,17 +95,18 @@ class DefenceGame {
 
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("buy");
+                tower.build();
                 this.addTower(tower, x, y);
                 this.model.money -= tower.getPrice(tower.tier);
             } else {
                 console.log("not enougth money");
-                tower.sprite.destroy();
                 tower = {};
             }
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
             if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
+                console.log("upgrade");
                 tower.upgrade();
                 this.model.money -= tower.getPrice(tower.tier);
             } else {
