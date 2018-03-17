@@ -23,27 +23,6 @@ tinydefence.rungame = {
 
         this.model.currentWave = -1;
         this.nextWaveOrLevel();
-        
-        this.waveText = this.game.add.bitmapText(
-            4, this.game.height - 16,
-            'font1', 
-            "",
-            16);
-        this.moneyText = this.game.add.bitmapText(
-            this.game.width / 3, this.game.height - 16,
-            'font1', 
-            "",
-            16);
-        this.upgradePriceText = this.game.add.bitmapText(
-            this.game.width / 3, this.game.height - 16,
-            'font1', 
-            "",
-            16);
-        this.liveText = this.game.add.bitmapText(
-            this.game.width / 3 * 2, this.game.height - 16,
-            'font1', 
-            "",
-            16);
     },
 
     createMap() {
@@ -120,30 +99,21 @@ tinydefence.rungame = {
         this.defencegame.update();
         
         // Update score
-        this.waveText.setText(`Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}`);
-        this.moneyText.setText(`$: ${this.model.money}`);
-        this.liveText.setText(`Lives: ${this.model.lives}`);
+        // // TODO nicht bei jedem update zyklus sondern nur wenn sich wirklich was ändert
+        tinydefence.game.ui.setCurrentWave(this.model.currentWave+1);
+        tinydefence.game.ui.setMaxWave(this.currentMap.waves.length);
+        tinydefence.game.ui.setMoney(this.model.money);
+        tinydefence.game.ui.setLives(this.model.lives);
             
         if(this.model.currentWave > this.currentMap.waves.length) {
-            this.clearTexts();
-            this.waveText.setText("You won the game");
+            tinydefence.game.ui.setFullText("You won the game");
             this.gameEnd = true;
         }
         
         // Is the player dead?
         if(this.model.lives <= 0) {
-            this.clearTexts();
-            this.waveText.setText("You lost the game");
+            tinydefence.game.ui.setFullText("You lost the game");
             this.gameEnd = true;
         }
-    },
-
-    clearTexts()
-    {
-        this.waveText.setText("");
-        this.moneyText.setText("");
-        this.upgradePriceText.setText("");
-        this.liveText.setText("");
-    }
-        
+    },  
 }

@@ -15,4 +15,6 @@ tinydefence.game.model = {
     lives: 10
 }
 
+tinydefence.game.ui = new UI(tinydefence.game);
+
 tinydefence.game.state.start("Boot");

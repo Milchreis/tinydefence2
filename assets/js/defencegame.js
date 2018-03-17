@@ -52,22 +52,24 @@ class DefenceGame {
         
         // Draw selector for free fields
         this.drawSelector(x, y);
-
         this.checkInput(x, y);
 
         // Update towers
-        let selectedTower = this.get(x, y, this.towermap);
         this.towers.forEach(t => {
             if(t.focusedEnemy === undefined) {
                 t.searchForEnemy(this.enemies);
             }
-            
             t.update();
-
-            if(selectedTower !== undefined && selectedTower === t) {
-                t.onHover();
-            }
         });
+
+        // Look for hovered tower
+        let selectedTower = this.get(x, y, this.towermap);
+        if(selectedTower !== undefined) {
+            selectedTower.onHover();
+            if(this.onTowerHover !== null) {
+              this.onTowerHover(selectedTower);
+            }
+        }
 
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
