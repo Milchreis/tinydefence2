@@ -52,22 +52,30 @@ class DefenceGame {
         
         // Draw selector for free fields
         this.drawSelector(x, y);
-
         this.checkInput(x, y);
 
         // Update towers
-        let selectedTower = this.get(x, y, this.towermap);
         this.towers.forEach(t => {
             if(t.focusedEnemy === undefined) {
                 t.searchForEnemy(this.enemies);
             }
-            
             t.update();
-
-            if(selectedTower !== undefined && selectedTower === t) {
-                t.onHover();
-            }
         });
+
+        // Look for hovered tower
+        let selectedTower = this.get(x, y, this.towermap);
+        if(selectedTower !== undefined) {
+            selectedTower.onHover();
+        }
+        // Look for free field
+        else if (this.isFieldFree(x, y))
+        {
+            tinydefence.game.ui.setPrice('50');
+        }
+        else
+        {
+            tinydefence.game.ui.setPrice(null);
+        }
 
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
@@ -93,23 +101,24 @@ class DefenceGame {
         if(this.isFieldFree(x, y)) {
             let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
 
-            if(this.model.money >= tower.price) {
-                console.log("buy");
+            if(this.model.money >= tower.getPrice(tower.tier)) {
+                console.log("Buy new tower");
+                tower.build();
                 this.addTower(tower, x, y);
-                this.model.money -= tower.price;
+                this.model.money -= tower.getPrice(tower.tier);
             } else {
-                console.log("not enougth money");
-                tower.sprite.destroy();
+                console.log("Not enougth money");
                 tower = {};
             }
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
-            if(this.model.money >= tower.price && tower.tier < tower.maxTier) {
+            if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
+                console.log("Buy tower upgrade");
                 tower.upgrade();
-                this.model.money -= tower.price;
+                this.model.money -= tower.getPrice(tower.tier);
             } else {
-                console.log("not enougth money");
+                console.log("Not enougth money");
             }
         }
     }
