@@ -4,7 +4,7 @@ class Tower {
         
         this.tier = 1;
         this.maxTier = 3;
-        this.radius = 100;
+        this.radius = 50;
         this.strength = 2.0;
         this.startPrice = 50;
         this.upgradePriceFactor = 0.5;
@@ -98,10 +98,10 @@ class Tower {
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
-            this.radius);
+            this.radius * 2);
         this.statsText.setText("Canon L." + this.tier
             + "\nDamage: " + this.strength
-            + "\nRadius: " + this.radius
+            + "\nRadius: " + Math.round(this.radius / 16 * 10) / 10 // show radius in tiles
             + "\nReload: " + this.attackPause / 1000);
         // this.game.upgradePriceText.setText(` (${this.getPrice(this.tier + 1)})`);
     }
@@ -128,7 +128,7 @@ class Tower {
     isInRange(x, y, width) {
         let dx = (x - this.sprite.x) * (x - this.sprite.x)
         let dy = (y - this.sprite.y) * (y - this.sprite.y)
-        return Math.sqrt(dx + dy) < this.radius/2 + width/2;
+        return Math.sqrt(dx + dy) < this.radius + width/2;
     }
 
     upgrade() {
