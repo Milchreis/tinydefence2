@@ -97,7 +97,7 @@ class Tower {
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius);
-        this.statsText.setText("Tier: " + this.tier
+        this.statsText.setText("Canon Lv.." + this.tier
             + "\nDamage: " + this.strange
             + "\nRadius: " + this.radius
             + "\nReload: " + this.attackPause
@@ -133,7 +133,7 @@ class Tower {
         console.log("upgrading tower");
         this.tier ++;
         this.radius += Math.round(this.radius * 0.1);
-        this.strange += this.strange * 0.7;
+        this.strange += this.strange * 0.8;
         this.price += Math.round(this.price * 0.5);
         this.attackPause -= Math.round(this.attackPause * 0.2);
     }
