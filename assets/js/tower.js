@@ -135,7 +135,7 @@ class Tower {
         console.log("upgrading tower");
         this.tier ++;
         this.radius += Math.round(this.radius * 0.1);
-        this.strength += this.strength * 0.8;
+        this.strength += this.strength * 1;
         this.attackPause -= Math.round(this.attackPause * 0.2);
     }
 
