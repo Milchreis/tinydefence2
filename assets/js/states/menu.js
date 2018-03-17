@@ -12,10 +12,12 @@ tinydefence.menu = {
 		this.logo.anchor.y = 0.5;
 	
 		this.text = this.game.add.bitmapText(
-            4, this.game.height - 16,
+            this.game.width/2, this.game.height - 32,
             'font1', 
             "Click or press to start",
-			16);
+			32);
+
+		this.text.anchor.setTo(0.5, 0.5);
 	},
 	
 	update: function() {

@@ -4,7 +4,7 @@ class Tower {
         
         this.tier = 1;
         this.maxTier = 3;
-        this.radius = 100;
+        this.radius = 200;
         this.strange = 2.0;
         this.price = 50;
         this.attackPause = 1000;
@@ -19,6 +19,7 @@ class Tower {
         
         this.sprite = game.add.sprite(x, y, 'tower');
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+        this.sprite.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         
         this.animation = this.sprite.animations.add('idle', [2], 4, true);
         this.sprite.animations.play('idle');
@@ -31,6 +32,8 @@ class Tower {
         this.game.physics.enable(this.bullets, Phaser.Physics.ARCADE);
         this.bullets.setAll('anchor.x', 0.5);
         this.bullets.setAll('anchor.y', 0.5);
+        this.bullets.setAll('scale.x', tinydefence.scalefactor);
+        this.bullets.setAll('scale.y', tinydefence.scalefactor);
         this.bullets.setAll('outOfBoundsKill', true);
 
         // Hover info
@@ -91,7 +94,7 @@ class Tower {
     }
 
     onHover() {
-        this.graphics.lineStyle(1, 0xBD5A08, 1);
+        this.graphics.lineStyle(2, 0xBD5A08, 1);
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
