@@ -9,17 +9,7 @@ tinydefence.rungame = {
         // Set cavans background
         this.game.stage.backgroundColor = "#1e1a17";
         
-        // Load current map
-        this.currentMap = tinydefence.maps[tinydefence.game.model.currentMapIndex];
-        
-        // Create tilemap
-        this.map = this.game.add.tilemap(this.currentMap.key);
-        this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
-        this.layer = this.map.createLayer('Level');
-        
-        let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
-        let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
-        
+        // Create a copy of the intial game settings
         this.model = {
             currentMapIndex: tinydefence.game.model.currentMapIndex,
             money: tinydefence.game.model.money,
@@ -27,11 +17,12 @@ tinydefence.rungame = {
             lives: tinydefence.game.model.lives,
         }
         
-        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, waypointdata, this.game, this.model);
         this.gameEnd = false;
-        
+       
+        this.createMap();
+
         this.model.currentWave = -1;
-        this.nextWave();
+        this.nextWaveOrLevel();
         
         this.scoreText = this.game.add.bitmapText(
             4, this.game.height - 16,
@@ -40,10 +31,42 @@ tinydefence.rungame = {
             16);
     },
 
-    nextWave() {
+    createMap() {
+        // Load current map
+        this.currentMap = tinydefence.maps[this.model.currentMapIndex];
+        
+        // Create tilemap
+        this.map = this.game.add.tilemap(this.currentMap.key);
+        this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
+        this.layer = this.map.createLayer('Level');
+        
+        let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
+        let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
+
+        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, waypointdata, this.game, this.model);
+    },
+
+    nextWaveOrLevel() {
+
+        this.model.currentWave += 1;
+
+        // Next map if no next wave exists
+        if(this.model.currentWave >= this.currentMap.waves.length 
+            && this.model.currentMapIndex < tinydefence.maps.length) {
+
+            // Next map/level
+            this.model.currentMapIndex++;
+            this.createMap();
+            
+            // Soft reset the game model for the next level            
+            this.model.money += tinydefence.game.model.money; 
+            this.model.lives = tinydefence.game.model.lives; 
+            this.model.currentWave = 0; 
+        }
+
+        // Next wave if exists
         if(this.model.currentWave < this.currentMap.waves.length) {
 
-            this.model.currentWave += 1;
             // Get current wave and create a clone
             this.wave = Object.assign({}, this.currentMap.waves[this.model.currentWave]);
     
@@ -64,7 +87,6 @@ tinydefence.rungame = {
             console.log("start in " + Math.floor((this.wavestart - this.game.time.now)/1000));
             
         } else {
-
             // Drop new enemies?
             if(this.game.time.now > this.nextEnemy && this.wave.maxEnemies > 0) {
                 this.wave.maxEnemies -= 1;
@@ -74,9 +96,9 @@ tinydefence.rungame = {
     
             // All enemies dead?
             if(this.defencegame.enemies.length === 0 && this.gameEnd === false) {
-                this.nextWave();
                 // Give a little bonus to frugal players
                 this.model.money += Math.round(this.model.money * 0.1);
+                this.nextWaveOrLevel();
             }
         }
         
