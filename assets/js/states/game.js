@@ -76,7 +76,7 @@ tinydefence.rungame = {
             if(this.defencegame.enemies.length === 0 && this.gameEnd === false) {
                 this.nextWave();
                 // Give a little bonus to frugal players
-                this.model.money += Nath.round(this.model.money * 0.1);
+                this.model.money += Math.round(this.model.money * 0.1);
             }
         }
         
