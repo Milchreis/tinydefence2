@@ -93,10 +93,10 @@ class DefenceGame {
         if(this.isFieldFree(x, y)) {
             let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
 
-            if(this.model.money >= tower.price) {
+            if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("buy");
                 this.addTower(tower, x, y);
-                this.model.money -= tower.price;
+                this.model.money -= tower.getPrice(tower.tier);
             } else {
                 console.log("not enougth money");
                 tower.sprite.destroy();
@@ -105,9 +105,9 @@ class DefenceGame {
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
-            if(this.model.money >= tower.price && tower.tier < tower.maxTier) {
+            if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
                 tower.upgrade();
-                this.model.money -= tower.price;
+                this.model.money -= tower.getPrice(tower.tier);
             } else {
                 console.log("not enougth money");
             }

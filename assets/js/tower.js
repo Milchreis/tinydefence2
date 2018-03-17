@@ -5,8 +5,9 @@ class Tower {
         this.tier = 1;
         this.maxTier = 3;
         this.radius = 100;
-        this.strange = 2.0;
-        this.price = 50;
+        this.strength = 2.0;
+        this.startPrice = 50;
+        this.upgradePriceFactor = 0.5;
         this.attackPause = 1000;
         this.bulletSpeed = 500;
         this.lastAttack = 0;
@@ -54,6 +55,7 @@ class Tower {
         // Remove hover effect
         this.graphics.clear();
         this.statsText.setText("");
+        // this.game.upgradePriceText.setText("");
 
         // Enemy still in range?
         if(this.focusedEnemy !== undefined) {
@@ -98,16 +100,16 @@ class Tower {
             this.sprite.body.y + this.sprite.height/2, 
             this.radius);
         this.statsText.setText("Canon L." + this.tier
-            + "\nDamage: " + this.strange
+            + "\nDamage: " + this.strength
             + "\nRadius: " + this.radius
-            + "\nReload: " + this.attackPause
-            + "\nSpeed: " + this.bulletSpeed);
+            + "\nReload: " + this.attackPause / 1000);
+        // this.game.upgradePriceText.setText(` (${this.getPrice(this.tier + 1)})`);
     }
 
     attack() {
         let bullet = this.bullets.getFirstExists(false);
         bullet.reset(this.sprite.x + this.sprite.width/2, this.sprite.y + this.sprite.height/2);
-        bullet.strange = this.strange;
+        bullet.strength = this.strength;
 
         this.sprite.animations.play('shoot');
 
@@ -119,7 +121,7 @@ class Tower {
     }
 
     onHit(enemy, bullet) {
-        enemy.health -= bullet.strange; 
+        enemy.health -= bullet.strength; 
         bullet.kill();
     }
 
@@ -133,9 +135,12 @@ class Tower {
         console.log("upgrading tower");
         this.tier ++;
         this.radius += Math.round(this.radius * 0.1);
-        this.strange += this.strange * 0.8;
-        this.price += Math.round(this.price * 0.5);
+        this.strength += this.strength * 0.8;
         this.attackPause -= Math.round(this.attackPause * 0.2);
+    }
+
+    getPrice(tier) {
+        return this.startPrice + Math.round((tier - 1) * this.upgradePriceFactor * this.startPrice);
     }
 
 }

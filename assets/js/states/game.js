@@ -24,8 +24,23 @@ tinydefence.rungame = {
         this.model.currentWave = -1;
         this.nextWaveOrLevel();
         
-        this.scoreText = this.game.add.bitmapText(
+        this.waveText = this.game.add.bitmapText(
             4, this.game.height - 16,
+            'font1', 
+            "",
+            16);
+        this.moneyText = this.game.add.bitmapText(
+            this.game.width / 3, this.game.height - 16,
+            'font1', 
+            "",
+            16);
+        this.upgradePriceText = this.game.add.bitmapText(
+            this.game.width / 3, this.game.height - 16,
+            'font1', 
+            "",
+            16);
+        this.liveText = this.game.add.bitmapText(
+            this.game.width / 3 * 2, this.game.height - 16,
             'font1', 
             "",
             16);
@@ -105,19 +120,30 @@ tinydefence.rungame = {
         this.defencegame.update();
         
         // Update score
-        this.scoreText.setText(
-            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.money}     Lives: ${this.model.lives}`);
+        this.waveText.setText(`Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}`);
+        this.moneyText.setText(`$: ${this.model.money}`);
+        this.liveText.setText(`Lives: ${this.model.lives}`);
             
         if(this.model.currentWave > this.currentMap.waves.length) {
-            this.scoreText.setText("You won the game");
+            this.clearTexts();
+            this.waveText.setText("You won the game");
             this.gameEnd = true;
         }
         
         // Is the player dead?
         if(this.model.lives <= 0) {
-            this.scoreText.setText("You lost the game");
+            this.clearTexts();
+            this.waveText.setText("You lost the game");
             this.gameEnd = true;
         }
     },
+
+    clearTexts()
+    {
+        this.waveText.setText("");
+        this.moneyText.setText("");
+        this.upgradePriceText.setText("");
+        this.liveText.setText("");
+    }
         
 }
