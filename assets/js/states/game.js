@@ -22,7 +22,7 @@ tinydefence.rungame = {
         
         this.model = {
             currentMapIndex: tinydefence.game.model.currentMapIndex,
-            points: tinydefence.game.model.points,
+            money: tinydefence.game.model.money,
             currentWave: tinydefence.game.model.currentWave,
             lives: tinydefence.game.model.lives,
         }
@@ -75,6 +75,8 @@ tinydefence.rungame = {
             // All enemies dead?
             if(this.defencegame.enemies.length === 0 && this.gameEnd === false) {
                 this.nextWave();
+                // Give a little bonus to frugal players
+                this.model.money += Nath.round(this.model.money * 0.1);
             }
         }
         
@@ -82,7 +84,7 @@ tinydefence.rungame = {
         
         // Update score
         this.scoreText.setText(
-            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.points}     Lives: ${this.model.lives}`);
+            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.money}     Lives: ${this.model.lives}`);
             
         if(this.model.currentWave > this.currentMap.waves.length) {
             this.scoreText.setText("You won the game");

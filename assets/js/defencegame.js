@@ -73,7 +73,7 @@ class DefenceGame {
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             e.die();
-            this.model.points += e.points;
+            this.model.money += e.points;
         });
         this.enemies = this.enemies.filter(e => e.sprite.health > 0.0 && e.targetReached === false);
         this.enemies.forEach(e => e.update());
@@ -83,10 +83,10 @@ class DefenceGame {
         if(this.isFieldFree(x, y)) {
             let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
 
-            if(this.model.points >= tower.price) {
+            if(this.model.money >= tower.price) {
                 console.log("buy");
                 this.addTower(tower, x, y);
-                this.model.points -= tower.price;
+                this.model.money -= tower.price;
             } else {
                 console.log("not enougth money");
                 tower.sprite.destroy();

@@ -10,7 +10,7 @@ tinydefence.game.state.add("Game", tinydefence.rungame);
 
 tinydefence.game.model = {
     currentMapIndex: 0,
-    points: 150,
+    money: 150,
     currentWave: 0,
     lives: 10
 }
