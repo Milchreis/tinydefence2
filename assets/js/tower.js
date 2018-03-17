@@ -97,7 +97,7 @@ class Tower {
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius);
-        this.statsText.setText("Canon Lv.." + this.tier
+        this.statsText.setText("Canon L." + this.tier
             + "\nDamage: " + this.strange
             + "\nRadius: " + this.radius
             + "\nReload: " + this.attackPause
