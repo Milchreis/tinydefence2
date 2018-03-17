@@ -39,8 +39,7 @@ class Tower {
 
             if(this.focusedEnemy.sprite.health > 0.0) {
                 let body = this.focusedEnemy.sprite.body;
-                if(this.isInRange(body.x, body.y, body.width)) {
-    
+                if(body !== null && this.isInRange(body.x, body.y, body.width)) {
                     if(this.game.time.now > this.lastAttack + this.attackPause) {
                         this.attack();
                         this.lastAttack = this.game.time.now;
