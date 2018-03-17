@@ -25,6 +25,8 @@ class DefenceGame {
         
         this.animation = this.selector.animations.add('idle', [0, 1], 8, true);
         this.selector.animations.play('idle');
+
+        this.wasButtonDown = false;
     }
 
     addTower(tower, x, y) {
@@ -51,10 +53,7 @@ class DefenceGame {
         // Draw selector for free fields
         this.drawSelector(x, y);
 
-        // Check input
-        if(this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown) {
-            this.onClick(x, y);
-        }
+        this.checkInput(x, y);
 
         // Update towers
         let selectedTower = this.get(x, y, this.towermap);
@@ -77,6 +76,17 @@ class DefenceGame {
         });
         this.enemies = this.enemies.filter(e => e.sprite.health > 0.0 && e.targetReached === false);
         this.enemies.forEach(e => e.update());
+    }
+
+    checkInput(x, y) {
+        if(this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown) {
+            this.wasButtonDown = true;
+        } else {
+            if(this.wasButtonDown) {
+                this.onClick(x, y);
+                this.wasButtonDown = false;
+            }
+        }
     }
 
     onClick(x, y) {
