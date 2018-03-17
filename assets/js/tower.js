@@ -2,9 +2,11 @@ class Tower {
 
     constructor(game, x, y) {
         
+        this.tier = 1;
+        this.maxTier = 3;
         this.radius = 100;
         this.strange = 2.0;
-		this.price = 50;
+        this.price = 50;
         this.attackPause = 1000;
         this.bulletSpeed = 500;
         this.lastAttack = 0;
@@ -31,7 +33,14 @@ class Tower {
         this.bullets.setAll('anchor.y', 0.5);
         this.bullets.setAll('outOfBoundsKill', true);
 
+        // Hover info
         this.graphics = this.game.add.graphics(0, 0);
+        this.statsText = this.game.add.bitmapText(
+            this.sprite.body.x + this.sprite.width, 
+            this.sprite.body.y + this.sprite.height,
+            'font1', 
+            "",
+            16);
     }
 
     searchForEnemy(enemies) {
@@ -44,6 +53,7 @@ class Tower {
     update() {
         // Remove hover effect
         this.graphics.clear();
+        this.statsText.setText("");
 
         // Enemy still in range?
         if(this.focusedEnemy !== undefined) {
@@ -87,6 +97,11 @@ class Tower {
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius);
+        this.statsText.setText("Tier: " + this.tier
+            + "\nDamage: " + this.strange
+            + "\nRadius: " + this.radius
+            + "\nReload: " + this.attackPause
+            + "\nSpeed: " + this.bulletSpeed);
     }
 
     attack() {
@@ -112,6 +127,15 @@ class Tower {
         let dx = (x - this.sprite.x) * (x - this.sprite.x)
         let dy = (y - this.sprite.y) * (y - this.sprite.y)
         return Math.sqrt(dx + dy) < this.radius/2 + width/2;
+    }
+
+    upgrade() {
+        console.log("upgrading tower");
+        this.tier ++;
+        this.radius += Math.round(this.radius * 0.1);
+        this.strange += this.strange * 0.7;
+        this.price += Math.round(this.price * 0.5);
+        this.attackPause -= Math.round(this.attackPause * 0.2);
     }
 
 }
