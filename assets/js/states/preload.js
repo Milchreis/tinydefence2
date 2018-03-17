@@ -15,6 +15,12 @@ tinydefence.preload.prototype = {
 		this.game.load.bitmapFont('font1', 
 			'assets/fonts/font.png',
 			'assets/fonts/font.fnt');
+		this.game.load.bitmapFont('font_green', 
+			'assets/fonts/font_green.png',
+			'assets/fonts/font_green.fnt');
+		this.game.load.bitmapFont('font_red', 
+			'assets/fonts/font_red.png',
+			'assets/fonts/font_red.fnt');
 
 		// Load all defined maps in maps.js
 		tinydefence.maps.forEach(map => {
