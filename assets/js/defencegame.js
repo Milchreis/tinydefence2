@@ -103,14 +103,24 @@ class DefenceGame {
                 tower = {};
             }
         }
+        else if (this.isTower(x, y)) {
+            let tower = this.get(x, y, this.towermap);
+            if(this.model.money >= tower.price && tower.tier < tower.maxTier) {
+                tower.upgrade();
+                this.model.money -= tower.price;
+            } else {
+                console.log("not enougth money");
+            }
+        }
     }
 
     drawSelector(x, y) {
-        if(this.isFieldFree(x, y)) {
+        if(this.isFieldFree(x, y) || this.isTower(x, y)) {
             this.selector.visible = true;
             this.selector.body.x = x*this.twidth;
             this.selector.body.y = y*this.theight;
-        } else {
+        }
+         else {
             this.selector.visible = false;
         }
     }
@@ -121,9 +131,9 @@ class DefenceGame {
     }
 
     isFieldFree(x, y) {
-        let tile = this.get(y, x, this.map);
+        let tile = this.get(y, x, this.waypointData);
         let tower = this.get(x, y, this.towermap);
-        return !(tile === 2 || tile === 3 || tower !== undefined);
+        return !(tile !== 0 || tower !== undefined);
     }
 
     getTile(x, y, map) {
