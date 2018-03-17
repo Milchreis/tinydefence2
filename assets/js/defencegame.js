@@ -1,6 +1,6 @@
 class DefenceGame {
     
-    constructor(tileWidth, tileHeight, width, height, map, game, model) {
+    constructor(tileWidth, tileHeight, width, height, map, waypointData, game, model) {
         
         this.game = game;
         this.twidth = tileWidth || 16;
@@ -9,6 +9,7 @@ class DefenceGame {
         this.height = height;
         
         this.map = map;
+        this.waypointData = waypointData;
         this.model = model;
         this.mapMeta = tinydefence.maps[this.model.currentMapIndex];
 
@@ -115,8 +116,8 @@ class DefenceGame {
         return !(tile === 2 || tile === 3 || tower !== undefined);
     }
 
-    getTile(x, y) {
-        return this.get(y, x, this.map);
+    getTile(x, y, map) {
+        return this.get(y, x, map);
     }
 
     get(x, y, map) {

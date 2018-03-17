@@ -21,6 +21,7 @@ tinydefence.preload.prototype = {
 		// Load all defined maps in maps.js
 		tinydefence.maps.forEach(map => {
 			this.game.load.tilemap(map.key, map.data, null, Phaser.Tilemap.TILED_JSON);
+			this.game.load.image(map.key + '_sprites', map.sprite);
 		});
 	},
 	

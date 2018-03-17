@@ -14,7 +14,7 @@ tinydefence.rungame = {
         
         // Create tilemap
         this.map = this.game.add.tilemap(this.currentMap.key);
-        this.map.addTilesetImage('Sprites', 'sprites');
+        this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
         this.layer = this.map.createLayer('Level');
         
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
@@ -27,7 +27,7 @@ tinydefence.rungame = {
             lives: tinydefence.game.model.lives,
         }
         
-        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, this.game, this.model);
+        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, waypointdata, this.game, this.model);
         this.gameEnd = false;
         
         this.model.currentWave = -1;

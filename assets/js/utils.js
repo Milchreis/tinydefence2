@@ -12,13 +12,13 @@ function getWaypoints(start, end, tilemap) {
     while(true) {
         // get next positions
         let tiles = [];
-        tiles.push({x: current.x, y: current.y-1, tile: tilemap.getTile(current.x, current.y-1)});
-        tiles.push({x: current.x, y: current.y+1, tile: tilemap.getTile(current.x, current.y+1)});
-        tiles.push({x: current.x+1, y: current.y, tile: tilemap.getTile(current.x+1, current.y)});
-        tiles.push({x: current.x-1, y: current.y, tile: tilemap.getTile(current.x-1, current.y)});
+        tiles.push({x: current.x, y: current.y-1, tile: tilemap.getTile(current.x, current.y-1, tilemap.waypointData)});
+        tiles.push({x: current.x, y: current.y+1, tile: tilemap.getTile(current.x, current.y+1, tilemap.waypointData)});
+        tiles.push({x: current.x+1, y: current.y, tile: tilemap.getTile(current.x+1, current.y, tilemap.waypointData)});
+        tiles.push({x: current.x-1, y: current.y, tile: tilemap.getTile(current.x-1, current.y, tilemap.waypointData)});
         
         // keep way tiles
-        tiles = tiles.filter(obj => obj.tile === 2 || obj.tile === 3);
+        tiles = tiles.filter(obj => obj.tile !== 0);
 
         // remove last position
         if(last !== undefined) {
