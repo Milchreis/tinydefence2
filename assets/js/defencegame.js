@@ -66,9 +66,15 @@ class DefenceGame {
         let selectedTower = this.get(x, y, this.towermap);
         if(selectedTower !== undefined) {
             selectedTower.onHover();
-            if(this.onTowerHover !== null) {
-              this.onTowerHover(selectedTower);
-            }
+        }
+        // Look for free field
+        else if (this.isFieldFree(x, y))
+        {
+            tinydefence.game.ui.setPrice('50');
+        }
+        else
+        {
+            tinydefence.game.ui.setPrice(null);
         }
 
         // Update enemies
@@ -96,23 +102,23 @@ class DefenceGame {
             let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
 
             if(this.model.money >= tower.getPrice(tower.tier)) {
-                console.log("buy");
+                console.log("Buy new tower");
                 tower.build();
                 this.addTower(tower, x, y);
                 this.model.money -= tower.getPrice(tower.tier);
             } else {
-                console.log("not enougth money");
+                console.log("Not enougth money");
                 tower = {};
             }
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
             if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
-                console.log("upgrade");
+                console.log("Buy tower upgrade");
                 tower.upgrade();
                 this.model.money -= tower.getPrice(tower.tier);
             } else {
-                console.log("not enougth money");
+                console.log("Not enougth money");
             }
         }
     }

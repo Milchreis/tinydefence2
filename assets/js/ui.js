@@ -6,7 +6,7 @@ class UI {
         this.currentWave = 0;
         this.maxWave = 0;
         this.money = 0;
-        this.price = 0;
+        this.price = null;
         this.lives = 0;
 
         this.waveText = this.game.add.bitmapText(
@@ -43,12 +43,12 @@ class UI {
 
     setMoney(money) {
         this.money = money;
-        this.moneyText.setText(`$: ${this.money} ${this.price}`);
+        this.moneyText.setText(`$: ${this.money} ${this.price !== null ? ('(' + this.price + ')') : ''}`);
     }
 
     setPrice(price) {
         this.price = price;
-        this.moneyText.setText(`$: ${this.money} ${this.price}`);
+        this.moneyText.setText(`$: ${this.money} ${this.price !== null ? ('(' + this.price + ')') : ''}`);
     }
 
     setLives(lives) {

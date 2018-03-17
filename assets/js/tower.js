@@ -71,17 +71,21 @@ class Tower {
     }
 
     onHover() {
+        // Radius
         this.graphics.lineStyle(1, 0xBD5A08, 1);
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius * 2);
-        // 1 decimal digit
+
+        // Stats with 1 decimal digit
         this.statsText.setText("Canon L." + this.tier
             + "\nDamage: " + Math.round(this.strength * 10) / 10
-            + "\nRadius: " + Math.round(this.radius / 16 * 10) / 10 // show radius in tiles
+            + "\nRadius: " + Math.round(this.radius / 16 * 10) / 10 // calculate radius in tiles
             + "\nReload: " + Math.round(this.attackPause / 100) / 10);
-        // this.game.upgradePriceText.setText(` (${this.getPrice(this.tier + 1)})`);
+
+        // Price for upgrade
+        tinydefence.game.ui.setPrice(this.tier < this.maxTier ? this.getPrice(this.tier + 1) : 'maxed');
     }
 
     attack() {
