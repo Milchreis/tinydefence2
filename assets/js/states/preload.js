@@ -13,6 +13,7 @@ tinydefence.preload.prototype = {
 		this.game.load.spritesheet('selection', 'assets/images/selection.png', 16, 16);
 		this.game.load.spritesheet('tower', 'assets/images/tower.png', 16, 16);
 		this.game.load.spritesheet('enemy', 'assets/images/enemy.png', 16, 16);
+		this.game.load.spritesheet('crab', 'assets/images/enemyCrab.png', 16, 16);
 
 		this.game.load.bitmapFont('font1', 
 			'assets/fonts/font.png',

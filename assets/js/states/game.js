@@ -90,7 +90,7 @@ tinydefence.rungame = {
             // Drop new enemies?
             if(this.game.time.now > this.nextEnemy && this.wave.maxEnemies > 0) {
                 this.wave.maxEnemies -= 1;
-                this.defencegame.addEnemy(this.wave.enemyHealth, this.wave.enemySpeed, this.wave.points);
+                this.defencegame.addEnemy(this.wave.enemyHealth, this.wave.enemySpeed, this.wave.points, this.wave.type);
                 this.nextEnemy = this.game.time.now + this.wave.dropInMillis;
             }
     

@@ -1,7 +1,7 @@
 
 class Enemy {
 
-    constructor(game, waypoints) {
+    constructor(game, waypoints, type) {
         
 		this.maxhealth = 10.0;
         this.points = 0.5;
@@ -13,15 +13,22 @@ class Enemy {
         this.nextWaypoint = this.waypoints[this.waypointIndex+1];
 
         this.game = game;
-        this.sprite = game.add.sprite(this.waypoints[0][0], this.waypoints[0][1], 'enemy');
+        this.type = type;
+
+        if(type === 'crab') {
+            this.sprite = game.add.sprite(this.waypoints[0][0], this.waypoints[0][1], 'crab');
+            this.animation = this.sprite.animations.add('idle', [0, 1, 2, 3], 8, true);
+        } else {
+            this.sprite = game.add.sprite(this.waypoints[0][0], this.waypoints[0][1], 'enemy');
+            this.animation = this.sprite.animations.add('idle', [0, 1, 2, 3], 8, true);
+        }
+        
         this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.sprite.body.immovable = true;
 
         this.sprite.health = this.maxhealth;
-
-        this.animation = this.sprite.animations.add('idle', [0, 1, 2, 3], 8, true);
         this.sprite.animations.play('idle');
 
         this.graphics = this.game.add.graphics(0, 0);

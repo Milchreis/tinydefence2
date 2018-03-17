@@ -34,8 +34,8 @@ class DefenceGame {
         this.towers.push(tower);
     }
 
-    addEnemy(health, enemySpeed, points) {
-        let enemy = new Enemy(this.game, this.waypoints);
+    addEnemy(health, enemySpeed, points, type) {
+        let enemy = new Enemy(this.game, this.waypoints, type);
         enemy.maxhealth = health || enemy.sprite.health;
         enemy.sprite.health = enemy.maxhealth;
         enemy.speed = enemySpeed || enemy.speed;
