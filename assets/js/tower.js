@@ -4,7 +4,7 @@ class Tower {
         
         this.tier = 1;
         this.maxTier = 3;
-        this.radius = 50;
+        this.radius = 50 * tinydefence.scalefactor;
         this.strength = 2.0;
         this.startPrice = 50;
         this.upgradePriceFactor = 0.5;
