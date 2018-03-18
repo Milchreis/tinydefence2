@@ -72,14 +72,13 @@ class DefenceGame {
 
                 // Price for upgrade
                 let price = tower.tier < tower.maxTier ? tower.getPrice(tower.tier + 1) : 'maxed';
-                tinydefence.game.ui.setPrice(
-                    price,
-                    Number.isInteger(price) && price < this.model.money ? 'green' : 'red');
+                tinydefence.game.ui.setPrice(price,
+                    Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
             }
             // Look for free field
             else if (this.isFieldFree(x, y))
             {
-                tinydefence.game.ui.setPrice(50, 50 < this.model.money ? 'green' : 'red');
+                tinydefence.game.ui.setPrice(50, 50 <= this.model.money ? 'green' : 'red');
             }
             else
             {

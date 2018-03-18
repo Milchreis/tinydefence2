@@ -68,7 +68,7 @@ class Tower {
                 this.onHit);
         });
 
-        if(tinydefence.game.ui.showCompleteCoverage) {
+        if (tinydefence.game.ui.showCompleteCoverage) {
             this.drawRange();
         }
     }
@@ -77,8 +77,9 @@ class Tower {
         // Radius
         this.graphics.lineStyle(2, 0xBD5A08, 1);
         this.graphics.drawCircle(
-            this.sprite.body.x + this.sprite.width/2, 
-            this.sprite.body.y + this.sprite.height/2, 
+            this.sprite.body.x + this.sprite.width/2,
+            this.sprite.body.y + this.sprite.height/2,
+            this.radius * tinydefence.scalefactor * 2);
     }
 
     onHover() {
