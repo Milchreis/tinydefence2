@@ -23,12 +23,7 @@ tinydefence.rungame = {
 
         this.model.currentWave = -1;
         this.nextWaveOrLevel();
-        
-        this.scoreText = this.game.add.bitmapText(
-            4, this.game.height - 16,
-            'font1', 
-            "",
-            16);
+        tinydefence.game.ui = new UI(tinydefence.game);
     },
 
     createMap() {
@@ -39,29 +34,30 @@ tinydefence.rungame = {
         this.map = this.game.add.tilemap(this.currentMap.key);
         this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
         this.layer = this.map.createLayer('Level');
+        this.layer.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
 
-        this.defencegame = new DefenceGame(16, 16, 30, 15, mapdata, waypointdata, this.game, this.model);
+        this.defencegame = new DefenceGame(16 * tinydefence.scalefactor, 16 * tinydefence.scalefactor, 30, 15, mapdata, waypointdata, this.game, this.model);
     },
 
     nextWaveOrLevel() {
 
         this.model.currentWave += 1;
 
-        // Next map if no next wave exists
+        // Next map if no next wave exists and if next map is in array
         if(this.model.currentWave >= this.currentMap.waves.length 
-            && this.model.currentMapIndex < tinydefence.maps.length) {
+            && this.model.currentMapIndex + 1 < tinydefence.maps.length) {
 
             // Next map/level
             this.model.currentMapIndex++;
             this.createMap();
             
             // Soft reset the game model for the next level            
-            this.model.money += tinydefence.game.model.money; 
-            this.model.lives = tinydefence.game.model.lives; 
-            this.model.currentWave = 0; 
+            this.model.money = tinydefence.game.model.money;
+            this.model.lives = tinydefence.game.model.lives;
+            this.model.currentWave = 0;
         }
 
         // Next wave if exists
@@ -105,19 +101,21 @@ tinydefence.rungame = {
         this.defencegame.update();
         
         // Update score
-        this.scoreText.setText(
-            `Wave: ${this.model.currentWave+1}/${this.currentMap.waves.length}     $: ${this.model.money}     Lives: ${this.model.lives}`);
+        // // TODO nicht bei jedem update zyklus sondern nur wenn sich wirklich was ändert
+        tinydefence.game.ui.setCurrentWave(this.model.currentWave+1);
+        tinydefence.game.ui.setMaxWave(this.currentMap.waves.length);
+        tinydefence.game.ui.setMoney(this.model.money);
+        tinydefence.game.ui.setLives(this.model.lives);
             
         if(this.model.currentWave > this.currentMap.waves.length) {
-            this.scoreText.setText("You won the game");
+            tinydefence.game.ui.setFullText("You won the game");
             this.gameEnd = true;
         }
         
         // Is the player dead?
         if(this.model.lives <= 0) {
-            this.scoreText.setText("You lost the game");
+            tinydefence.game.ui.setFullText("You lost the game");
             this.gameEnd = true;
         }
-    },
-        
+    },  
 }
