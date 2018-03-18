@@ -83,11 +83,11 @@ class DefenceGame {
             {
                 tinydefence.game.ui.setPrice(null);
             }
+        } else {
+            // Selector is not visible if the pointer is over a menu
+            this.selector.visible = false;
         }
 
-        // Selector is not visible if the pointer is over a menu
-        this.selector.visible = !tinydefence.game.ui.isOverMenu;
-        
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             e.die();
