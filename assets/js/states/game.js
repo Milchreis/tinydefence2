@@ -46,18 +46,18 @@ tinydefence.rungame = {
 
         this.model.currentWave += 1;
 
-        // Next map if no next wave exists
+        // Next map if no next wave exists and if next map is in array
         if(this.model.currentWave >= this.currentMap.waves.length 
-            && this.model.currentMapIndex < tinydefence.maps.length) {
+            && this.model.currentMapIndex + 1 < tinydefence.maps.length) {
 
             // Next map/level
             this.model.currentMapIndex++;
             this.createMap();
             
             // Soft reset the game model for the next level            
-            this.model.money += tinydefence.game.model.money; 
-            this.model.lives = tinydefence.game.model.lives; 
-            this.model.currentWave = 0; 
+            this.model.money = tinydefence.game.model.money;
+            this.model.lives = tinydefence.game.model.lives;
+            this.model.currentWave = 0;
         }
 
         // Next wave if exists

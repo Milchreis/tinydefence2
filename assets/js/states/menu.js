@@ -13,7 +13,7 @@ tinydefence.menu = {
 	
 		this.text = this.game.add.bitmapText(
             this.game.width/2, this.game.height - 32,
-            'font1', 
+            'font_white', 
             "Click or press to start",
 			32);
 

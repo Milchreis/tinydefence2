@@ -4,7 +4,7 @@ class Tower {
         
         this.tier = 1;
         this.maxTier = 3;
-        this.radius = 50 * tinydefence.scalefactor;
+        this.radius = 50;
         this.strength = 2.0;
         this.startPrice = 50;
         this.upgradePriceFactor = 0.5;
@@ -74,11 +74,11 @@ class Tower {
     }
 
     drawRange() {
+        // Radius
         this.graphics.lineStyle(2, 0xBD5A08, 1);
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
-            this.radius * 2);
     }
 
     onHover() {
@@ -87,11 +87,8 @@ class Tower {
         // Stats with 1 decimal digit
         this.statsText.setText("Canon L." + this.tier
             + "\nDamage: " + Math.round(this.strength * 10) / 10
-            + "\nRadius: " + Math.round(this.radius / this.sprite.width * 10) / 10 // calculate radius in tiles
+            + "\nRadius: " + Math.round(this.radius * tinydefence.scalefactor / this.sprite.width * 10) / 10 // calculate radius in tiles
             + "\nReload: " + Math.round(this.attackPause / 100) / 10);
-
-        // Price for upgrade
-        tinydefence.game.ui.setPrice(this.tier < this.maxTier ? this.getPrice(this.tier + 1) : 'maxed');
     }
 
     attack() {
@@ -116,7 +113,7 @@ class Tower {
     isInRange(x, y, width) {
         let dx = (x - this.sprite.x) * (x - this.sprite.x)
         let dy = (y - this.sprite.y) * (y - this.sprite.y)
-        return Math.sqrt(dx + dy) < this.radius + width / 2;
+        return Math.sqrt(dx + dy) < this.radius * tinydefence.scalefactor + width / 2;
     }
 
     build() {
@@ -145,7 +142,7 @@ class Tower {
         this.statsText = this.game.add.bitmapText(
             this.sprite.body.x + this.sprite.width, 
             this.sprite.body.y + this.sprite.height,
-            'font1', 
+            'font_white', 
             "",
             16);
     }

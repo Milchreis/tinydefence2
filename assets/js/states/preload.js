@@ -14,7 +14,7 @@ tinydefence.preload.prototype = {
 
 		this.game.load.spritesheet('buttonCoverage', 'assets/images/buttonCoverage.png', 32, 18);
 
-		this.game.load.bitmapFont('font1', 
+		this.game.load.bitmapFont('font_white', 
 			'assets/fonts/font.png',
 			'assets/fonts/font.fnt');
 		this.game.load.bitmapFont('font_green', 
