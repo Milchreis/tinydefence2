@@ -55,9 +55,9 @@ tinydefence.rungame = {
             this.createMap();
             
             // Soft reset the game model for the next level            
-            this.model.money += tinydefence.game.model.money; 
-            this.model.lives = tinydefence.game.model.lives; 
-            this.model.currentWave = 0; 
+            this.model.money = tinydefence.game.model.money;
+            this.model.lives = tinydefence.game.model.lives;
+            this.model.currentWave = 0;
         }
 
         // Next wave if exists
