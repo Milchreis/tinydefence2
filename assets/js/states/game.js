@@ -46,9 +46,9 @@ tinydefence.rungame = {
 
         this.model.currentWave += 1;
 
-        // Next map if no next wave exists
+        // Next map if no next wave exists and if next map is in array
         if(this.model.currentWave >= this.currentMap.waves.length 
-            && this.model.currentMapIndex < tinydefence.maps.length) {
+            && this.model.currentMapIndex + 1 < tinydefence.maps.length) {
 
             // Next map/level
             this.model.currentMapIndex++;
