@@ -16,7 +16,7 @@ tinydefence.game.state.add("Menu", tinydefence.menu);
 tinydefence.game.state.add("Game", tinydefence.rungame);
 
 tinydefence.game.model = {
-    currentMapIndex: 0,
+    currentMapIndex: 2,
     money: 150,
     currentWave: 0,
     lives: 10,
