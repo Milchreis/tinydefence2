@@ -108,7 +108,7 @@ class UI {
     {
         this.waveText.setText("");
         this.moneyText.setText("");
-        this.upgradePriceText.setText("");
+        this.priceText.setText("");
         this.liveText.setText("");
     }
 }

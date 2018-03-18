@@ -59,7 +59,7 @@ class DefenceGame {
         let cursor = this.getCursor();
         let x = cursor.x;
         let y = cursor.y;
-
+      
         if(x !== null && y != null) {
             // Draw selector for free fields
             this.drawSelector(x, y);
@@ -80,21 +80,6 @@ class DefenceGame {
             else if (this.isFieldFree(x, y))
             {
                 tinydefence.game.ui.setPrice(50, 50 < this.model.money ? 'green' : 'red');
-            }
-            else
-            {
-                tinydefence.game.ui.setPrice(null);
-            }
-
-            // Look for hovered tower
-            let selectedTower = this.get(x, y, this.towermap);
-            if(selectedTower !== undefined) {
-                selectedTower.onHover();
-            }
-            // Look for free field
-            else if (this.isFieldFree(x, y))
-            {
-                tinydefence.game.ui.setPrice('50');
             }
             else
             {
