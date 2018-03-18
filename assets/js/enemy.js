@@ -12,6 +12,9 @@ class Enemy {
         this.waypointIndex = 0;
         this.nextWaypoint = this.waypoints[this.waypointIndex+1];
 
+        this.dirX = this.nextWaypoint[0] - this.waypoints[0][0];
+        this.dirY = this.nextWaypoint[1] - this.waypoints[0][1];
+
         this.game = game;
         this.type = type;
 
@@ -81,10 +84,49 @@ class Enemy {
         let x = Math.floor(this.sprite.body.x);
         let y = Math.floor(this.sprite.body.y);
 
-        // Next waypoint reached?
-        if(this.inRange(x, this.nextWaypoint[0], 3) && this.inRange(y, this.nextWaypoint[1], 3)) {
+        let deltaX = this.nextWaypoint[0] - x;
+        let deltaY = this.nextWaypoint[1] - y;
+
+        if(deltaX == 0) {
+            this.sprite.body.velocity.x = 0
+        } else if (deltaX > 0) {
+            this.sprite.body.velocity.x = this.speed
+        } else if(deltaX < 0) {
+            this.sprite.body.velocity.x = -this.speed
+        };
+
+        if(deltaY == 0) {
+            this.sprite.body.velocity.y = 0
+        } else if(deltaY > 0) {
+            this.sprite.body.velocity.y = this.speed
+        } else if(deltaY < 0) {
+             this.sprite.body.velocity.y = -this.speed
+        };
+
+        if(this.dirX > 0 && deltaX <= 0) {
+            this.sprite.body.velocity.x = 0;
             this.sprite.body.x = this.nextWaypoint[0]
+        }
+
+        if(this.dirX < 0 && deltaX >= 0) {
+            this.sprite.body.velocity.x = 0;
+            this.sprite.body.x = this.nextWaypoint[0]
+        }
+
+         if(this.dirY > 0 && deltaY <= 0) {
+            this.sprite.body.velocity.y = 0;
             this.sprite.body.y = this.nextWaypoint[1]
+        }
+
+        if(this.dirY < 0 && deltaY >= 0) {
+            this.sprite.body.velocity.y = 0;
+            this.sprite.body.y = this.nextWaypoint[1]
+        }
+
+        // Next waypoint reached?
+        if(x == this.nextWaypoint[0] && y == this.nextWaypoint[1]) {
+            //this.sprite.body.x = this.nextWaypoint[0]
+            //this.sprite.body.y = this.nextWaypoint[1]
 
             this.waypointIndex += 1;
             // last waypoint reached?
@@ -98,7 +140,24 @@ class Enemy {
                 this.nextWaypoint = this.waypoints[this.waypointIndex];
             }
 
-        } else {
+            this.dirX = this.nextWaypoint[0] - x;
+            this.dirY = this.nextWaypoint[1] - y;
+
+            if(Math.abs(this.dirX) > Math.abs(this.dirY)) {
+                if(this.dirX >= 0) {
+                    this.animationManager.play('walkRight');
+                } else {
+                    this.animationManager.play('walkLeft');
+                }
+            } else {
+                if(this.dirY >= 0) {
+                    this.animationManager.play('walkDown');
+                } else {
+                    this.animationManager.play('walkUp');
+                }
+            }
+
+        } /*else {
             // Move to waypoint
             if(x < this.nextWaypoint[0]) {
                 this.walkRight();
@@ -111,7 +170,7 @@ class Enemy {
             } else if(y > this.nextWaypoint[1]) {
                 this.walkUp();
             }
-        }
+        }*/
 
         // Draw health bar
         if(this.sprite.health > 0 && this.sprite.body !== null) {
