@@ -70,6 +70,7 @@ class Tower {
     }
 
     onHover() {
+        // Radius
         this.graphics.lineStyle(2, 0xBD5A08, 1);
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
