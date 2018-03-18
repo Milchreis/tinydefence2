@@ -82,9 +82,6 @@ class Tower {
             + "\nDamage: " + Math.round(this.strength * 10) / 10
             + "\nRadius: " + Math.round(this.radius * tinydefence.scalefactor / this.sprite.width * 10) / 10 // calculate radius in tiles
             + "\nReload: " + Math.round(this.attackPause / 100) / 10);
-
-        // Price for upgrade
-        tinydefence.game.ui.setPrice(this.tier < this.maxTier ? this.getPrice(this.tier + 1) : 'maxed');
     }
 
     attack() {
@@ -138,7 +135,7 @@ class Tower {
         this.statsText = this.game.add.bitmapText(
             this.sprite.body.x + this.sprite.width, 
             this.sprite.body.y + this.sprite.height,
-            'font1', 
+            'font_white', 
             "",
             16);
     }
