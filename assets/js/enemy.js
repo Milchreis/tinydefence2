@@ -27,6 +27,7 @@ class Enemy {
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.sprite.body.immovable = true;
+        this.sprite.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
 
         this.sprite.health = this.maxhealth;
         this.sprite.animations.play('idle');

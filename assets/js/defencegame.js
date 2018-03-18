@@ -21,6 +21,7 @@ class DefenceGame {
         this.waypoints = getWaypoints(this.mapMeta.start, this.mapMeta.end, this);
 
         this.selector = this.game.add.sprite(0, 0, 'selection');
+        this.selector.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.game.physics.arcade.enable(this.selector, Phaser.Physics.ARCADE);
         
         this.animation = this.selector.animations.add('idle', [0, 1], 8, true);
@@ -158,8 +159,8 @@ class DefenceGame {
     }
 
     getCursor() {
-        let x = Math.floor((this.game.input.x * this.game.scale.parentScaleFactor.x) / this.twidth);
-        let y = Math.floor((this.game.input.y * this.game.scale.parentScaleFactor.y) / this.theight); 
+        let x = Math.floor((this.game.input.x * this.game.scale.parentScaleFactor.x) / (this.twidth));
+        let y = Math.floor((this.game.input.y * this.game.scale.parentScaleFactor.y) / (this.theight)); 
         // Contraints
         x = x >= this.width ? this.width-1 : x; 
         y = y >= this.height ? this.height-1 : y; 

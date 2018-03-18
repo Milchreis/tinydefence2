@@ -10,25 +10,25 @@ class UI {
         this.lives = 0;
 
         this.waveText = this.game.add.bitmapText(
-            4, this.game.height - 16,
+            4, this.game.height - 32,
             'font1', 
             "",
-            16);
+            32);
         this.moneyText = this.game.add.bitmapText(
-            this.game.width / 3, this.game.height - 16,
+            this.game.width / 3, this.game.height - 32,
             'font1', 
             "",
-            16);
+            32);
         this.upgradePriceText = this.game.add.bitmapText(
-            this.game.width / 3, this.game.height - 16,
+            this.game.width / 3, this.game.height - 32,
             'font1', 
             "",
-            16);
+            32);
         this.liveText = this.game.add.bitmapText(
-            this.game.width / 3 * 2, this.game.height - 16,
+            this.game.width / 3 * 2, this.game.height - 32,
             'font1', 
             "",
-            16);
+            32);
     }
 
     setCurrentWave(wave) {
