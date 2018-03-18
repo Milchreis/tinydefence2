@@ -46,15 +46,7 @@ class DefenceGame {
     }
 
     update() {
-        // Get mouse position on tilemap
-        let cursor = this.getCursor();
-        let x = cursor.x;
-        let y = cursor.y;
         
-        // Draw selector for free fields
-        this.drawSelector(x, y);
-        this.checkInput(x, y);
-
         // Update towers
         this.towers.forEach(t => {
             if(t.focusedEnemy === undefined) {
@@ -62,22 +54,33 @@ class DefenceGame {
             }
             t.update();
         });
+        
+        // Get mouse position on tilemap
+        let cursor = this.getCursor();
+        let x = cursor.x;
+        let y = cursor.y;
 
-        // Look for hovered tower
-        let selectedTower = this.get(x, y, this.towermap);
-        if(selectedTower !== undefined) {
-            selectedTower.onHover();
-        }
-        // Look for free field
-        else if (this.isFieldFree(x, y))
-        {
-            tinydefence.game.ui.setPrice('50');
-        }
-        else
-        {
-            tinydefence.game.ui.setPrice(null);
-        }
+        if(x !== null && y != null) {
+            // Draw selector for free fields
+            this.drawSelector(x, y);
+            this.checkInput(x, y);
 
+            // Look for hovered tower
+            let selectedTower = this.get(x, y, this.towermap);
+            if(selectedTower !== undefined) {
+                selectedTower.onHover();
+            }
+            // Look for free field
+            else if (this.isFieldFree(x, y))
+            {
+                tinydefence.game.ui.setPrice('50');
+            }
+            else
+            {
+                tinydefence.game.ui.setPrice(null);
+            }
+        }
+        
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             e.die();
@@ -162,8 +165,8 @@ class DefenceGame {
         let x = Math.floor((this.game.input.x * this.game.scale.parentScaleFactor.x) / (this.twidth));
         let y = Math.floor((this.game.input.y * this.game.scale.parentScaleFactor.y) / (this.theight)); 
         // Contraints
-        x = x >= this.width ? this.width-1 : x; 
-        y = y >= this.height ? this.height-1 : y; 
+        x = x >= this.width || x < 0 ? null : x; 
+        y = y >= this.height || y < 0 ? null : y; 
 
         return {x: x, y: y};
     }

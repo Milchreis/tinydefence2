@@ -67,14 +67,22 @@ class Tower {
                 a.enemy.sprite,
                 this.onHit);
         });
+
+        if(tinydefence.game.ui.showCompleteCoverage) {
+            this.drawRange();
+        }
     }
 
-    onHover() {
+    drawRange() {
         this.graphics.lineStyle(2, 0xBD5A08, 1);
         this.graphics.drawCircle(
             this.sprite.body.x + this.sprite.width/2, 
             this.sprite.body.y + this.sprite.height/2, 
             this.radius * 2);
+    }
+
+    onHover() {
+        this.drawRange();
 
         // Stats with 1 decimal digit
         this.statsText.setText("Canon L." + this.tier
