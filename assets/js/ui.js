@@ -9,6 +9,7 @@ class UI {
         this.price = null;
         this.priceColor = 'white';
         this.lives = 0;
+        this.showCompleteCoverage = false;
 
         this.waveText = this.game.add.bitmapText(
             5, this.game.height - 32,
@@ -30,9 +31,26 @@ class UI {
             'font_white', 
             "",
             32);
-
+      
         // Center moneyText only once
         this.moneyText.x = this.game.width / 2 - this.moneyText.textWidth / 2;
+      
+        // Toggle button to show the complete coverage by all towers 
+        this.buttonCoverage = this.game.add.button(0, 0, 'buttonCoverage', this.onToggleCoverage, this, 0, 0, 0);
+        this.buttonCoverage.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
+        this.buttonCoverage.x = this.game.width - this.buttonCoverage.width - 5;
+        this.buttonCoverage.y = this.game.height - this.buttonCoverage.height - 2;
+    }
+
+    onToggleCoverage() {
+        console.log("Coverage toggled");
+        this.showCompleteCoverage = !this.showCompleteCoverage;
+        
+        if(this.showCompleteCoverage) {
+            this.buttonCoverage.setFrames(1, 1, 1);
+        } else {
+            this.buttonCoverage.setFrames(0, 0, 0);
+        }
     }
 
     setCurrentWave(wave) {
