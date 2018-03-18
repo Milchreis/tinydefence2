@@ -11,25 +11,28 @@ class UI {
         this.lives = 0;
 
         this.waveText = this.game.add.bitmapText(
-            4, this.game.height - 32,
+            5, this.game.height - 32,
             'font_white', 
             "",
             32);
         this.moneyText = this.game.add.bitmapText(
-            this.game.width / 3, this.game.height - 32,
+            this.game.width / 2, this.game.height - 32,
             'font_white', 
-            "",
+            "$: xxx",
             32);
         this.priceText = this.game.add.bitmapText(
-            this.game.width / 3 + 100, this.game.height - 32,
+            0, this.game.height - 32,
             'font_green', 
             "",
             32);
         this.liveText = this.game.add.bitmapText(
-            this.game.width / 3 * 2, this.game.height - 32,
+            this.game.width, this.game.height - 32,
             'font_white', 
             "",
             32);
+
+        // Center moneyText only once
+        this.moneyText.x = this.game.width / 2 - this.moneyText.textWidth / 2;
     }
 
     setCurrentWave(wave) {
@@ -77,6 +80,10 @@ class UI {
         this.priceText.font = 'font_' + this.priceColor;
         this.priceText.setText(`${this.price !== null ? ('(' + this.price + ')') : ''}`);
         this.liveText.setText(`Lives: ${this.lives}`);
+
+        // reposition texts
+        this.priceText.x = this.moneyText.x + this.moneyText.textWidth + 10;
+        this.liveText.x = this.game.width - this.liveText.textWidth - 5;
     }
 
     clearTexts()

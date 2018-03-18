@@ -64,12 +64,12 @@ class DefenceGame {
         });
 
         // Look for hovered tower
-        let selectedTower = this.get(x, y, this.towermap);
-        if(selectedTower !== undefined) {
-            selectedTower.onHover();
+        let tower = this.get(x, y, this.towermap);
+        if(tower !== undefined) {
+            tower.onHover();
 
             // Price for upgrade
-            let price = selectedTower.tier < selectedTower.maxTier ? selectedTower.getPrice(selectedTower.tier + 1) : 'maxed';
+            let price = tower.tier < tower.maxTier ? tower.getPrice(tower.tier + 1) : 'maxed';
             tinydefence.game.ui.setPrice(
                 price,
                 Number.isInteger(price) && price < this.model.money ? 'green' : 'red');
