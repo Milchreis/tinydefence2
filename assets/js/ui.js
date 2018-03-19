@@ -11,6 +11,7 @@ class UI {
         this.lives = 0;
         this.showCompleteCoverage = false;
         this.overlays = [];
+        this.isOverMenu = false;
 
         this.waveText = this.game.add.bitmapText(
             5, this.game.height - 32,
@@ -40,7 +41,10 @@ class UI {
         this.buttonCoverage = this.game.add.button(0, 0, 'buttonCoverage', this.onToggleCoverage, this, 0, 0, 0);
         this.buttonCoverage.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.buttonCoverage.x = this.game.width - this.buttonCoverage.width - 5;
-        this.buttonCoverage.y = this.game.height - this.buttonCoverage.height - 2;
+        this.buttonCoverage.y = this.game.height - this.buttonCoverage.height - 42;
+
+        this.buttonCoverage.onInputOver.add(() => this.isOverMenu = true, this);
+        this.buttonCoverage.onInputOut.add(() => this.isOverMenu = false, this);
     }
 
     addOverlay(uioverlay) {
