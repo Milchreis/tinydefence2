@@ -46,7 +46,6 @@ class DefenceGame {
     }
 
     update() {
-        
         // Update towers
         this.towers.forEach(t => {
             if(t.focusedEnemy === undefined) {
@@ -60,7 +59,7 @@ class DefenceGame {
         let x = cursor.x;
         let y = cursor.y;
       
-        if(x !== null && y != null) {
+        if(x !== null && y != null && !tinydefence.game.ui.isOverMenu) {
             // Draw selector for free fields
             this.drawSelector(x, y);
             this.checkInput(x, y);
@@ -84,8 +83,11 @@ class DefenceGame {
             {
                 tinydefence.game.ui.setPrice(null);
             }
+        } else {
+            // Selector is not visible if the pointer is over a menu
+            this.selector.visible = false;
         }
-        
+
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             e.die();
