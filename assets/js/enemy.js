@@ -46,30 +46,6 @@ class Enemy {
         this.velocityOld = {}
     }
 
-    walkLeft() {
-        this.sprite.body.velocity.x = -this.speed;
-        this.sprite.body.velocity.y = 0;
-        this.animationManager.play('walkLeft');
-    }
-
-    walkRight() {
-        this.sprite.body.velocity.x = this.speed;
-        this.sprite.body.velocity.y = 0;
-        this.animationManager.play('walkRight');
-    }
-
-    walkDown() {
-        this.sprite.body.velocity.x = 0;
-        this.sprite.body.velocity.y = this.speed;
-        this.animationManager.play('walkDown');
-    }
-
-    walkUp() {
-        this.sprite.body.velocity.x = 0;
-        this.sprite.body.velocity.y = -this.speed;
-        this.animationManager.play('walkUp');
-    }
-
     update() {
         this.graphics.clear();
 
