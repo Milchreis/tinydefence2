@@ -22,6 +22,8 @@ class UIOverlay {
             text,
             size);
 
+        this.text.anchor.setTo(0.5, 0.5);
+
         this.text.visible = false;
     }
     

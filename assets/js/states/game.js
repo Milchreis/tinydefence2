@@ -80,7 +80,15 @@ tinydefence.rungame = {
 
         // Get a small warm up phase
         if(this.game.time.now < this.wavestart) {
-            console.log("start in " + Math.floor((this.wavestart - this.game.time.now)/1000));
+            
+            let now = Math.floor((this.wavestart - this.game.time.now)/1000);
+
+            if(this.last !== undefined && now !== this.last && now <= 3) {
+                let overlay = new UIOverlay(this.game.width/2, this.game.height/2, now, this.game, 128);
+                tinydefence.game.ui.addOverlay(overlay.start());
+            }
+            
+            this.last = Math.floor((this.wavestart - this.game.time.now)/1000);
             
         } else {
             // Drop new enemies?
