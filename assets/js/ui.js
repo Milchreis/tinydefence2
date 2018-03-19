@@ -10,6 +10,7 @@ class UI {
         this.priceColor = 'white';
         this.lives = 0;
         this.showCompleteCoverage = false;
+        this.overlays = [];
         this.isOverMenu = false;
 
         this.waveText = this.game.add.bitmapText(
@@ -44,6 +45,17 @@ class UI {
 
         this.buttonCoverage.onInputOver.add(() => this.isOverMenu = true, this);
         this.buttonCoverage.onInputOut.add(() => this.isOverMenu = false, this);
+    }
+
+    addOverlay(uioverlay) {
+        this.overlays.push(uioverlay);
+    }
+
+    updateOverlays() {
+        // Remove finished overlays
+        this.overlays = this.overlays.filter(o => !o.finished);
+        // Update overlays
+        this.overlays.forEach(o => o.update());
     }
 
     onToggleCoverage() {
