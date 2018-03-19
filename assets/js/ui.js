@@ -10,6 +10,7 @@ class UI {
         this.priceColor = 'white';
         this.lives = 0;
         this.showCompleteCoverage = false;
+        this.overlays = [];
 
         this.waveText = this.game.add.bitmapText(
             5, this.game.height - 32,
@@ -40,6 +41,17 @@ class UI {
         this.buttonCoverage.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.buttonCoverage.x = this.game.width - this.buttonCoverage.width - 5;
         this.buttonCoverage.y = this.game.height - this.buttonCoverage.height - 2;
+    }
+
+    addOverlay(uioverlay) {
+        this.overlays.push(uioverlay);
+    }
+
+    updateOverlays() {
+        // Remove finished overlays
+        this.overlays = this.overlays.filter(o => !o.finished);
+        // Update overlays
+        this.overlays.forEach(o => o.update());
     }
 
     onToggleCoverage() {

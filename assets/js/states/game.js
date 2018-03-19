@@ -93,7 +93,12 @@ tinydefence.rungame = {
             // All enemies dead?
             if(this.defencegame.enemies.length === 0 && this.gameEnd === false) {
                 // Give a little bonus to frugal players
-                this.model.money += Math.round(this.model.money * 0.1);
+                let bonus = Math.round(this.model.money * 0.1);
+                this.model.money += bonus;
+
+                let overlay = new UIOverlay(tinydefence.game.ui.moneyText.x, tinydefence.game.ui.moneyText.y, "    " + bonus, this.game);
+                tinydefence.game.ui.addOverlay(overlay.start());
+    
                 this.nextWaveOrLevel();
             }
         }
