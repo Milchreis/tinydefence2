@@ -23,6 +23,7 @@ class UIOverlay {
 
         this.text.anchor.setTo(0.5, 0.5);
         this.text.alpha = 0.0;
+        this.finished = false;
     }
     
     start(inMillis) {
@@ -33,23 +34,24 @@ class UIOverlay {
         
         return this;
     }
-    
+
     playOutTween() {
-        this.game.add.tween(this.text)
-        .to({
-            alpha: 0, 
-            y: this.text.y + this.yOffset, 
-            x: this.text.x + this.xOffset
-        }, 250, this.easing, true);
+        let tween = this.game.add.tween(this.text)
+            .to({
+                alpha: 0, 
+                y: this.text.y + this.yOffset, 
+                x: this.text.x + this.xOffset
+            }, 250, this.easing, true);
+
+        tween.onComplete.add(() => this.finished = true);
     }
     
     playInTween() {
         this.game.add.tween(this.text)
-        .to({ alpha: 1, 
-            x: this.text.x - this.xOffset,  
-            y: this.text.y - this.yOffset
-        }, 75, this.easing, true);
-
+            .to({ alpha: 1, 
+                x: this.text.x - this.xOffset,  
+                y: this.text.y - this.yOffset
+            }, 75, this.easing, true);
     }
 
 }
