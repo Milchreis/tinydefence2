@@ -100,9 +100,6 @@ class DefenceGame {
 
         this.enemies = this.enemies.filter(e => e.sprite.health > 0.0 && e.targetReached === false);
         this.enemies.forEach(e => e.update());
-
-
-        //tinydefence.game.ui.updateOverlays();
     }
 
     checkInput(x, y) {
