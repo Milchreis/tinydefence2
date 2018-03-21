@@ -5,7 +5,6 @@ class UIOverlay {
         this.x = x;
         this.y = y;
 
-        this.finished = false;
         this.liveTime = time || 300;
         this.easingIn = easingIn || Phaser.Easing.Back.In;
         this.easingOut = easingOut || Phaser.Easing.Back.Out;
@@ -23,15 +22,11 @@ class UIOverlay {
             size);
 
         this.text.anchor.setTo(0.5, 0.5);
-
-        this.text.visible = false;
+        this.text.alpha = 0.0;
     }
     
     start(inMillis) {
         inMillis = inMillis || 0;
-
-        this.text.visible = true;
-        this.text.alpha = 0.0;
         
         this.game.time.events.add(inMillis, this.playInTween, this);
         this.game.time.events.add(inMillis + this.liveTime , this.playOutTween, this);
