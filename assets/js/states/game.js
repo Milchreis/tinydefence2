@@ -80,7 +80,31 @@ tinydefence.rungame = {
 
         // Get a small warm up phase
         if(this.game.time.now < this.wavestart) {
-            console.log("start in " + Math.floor((this.wavestart - this.game.time.now)/1000));
+            
+            let now = Math.floor((this.wavestart - this.game.time.now)/1000);
+
+            if(this.last !== undefined && now !== this.last && now <= 3) {
+                
+                let overlay = null;
+                // In the first wave show the centered big countdown
+                if(this.model.currentWave === 0) {
+                    overlay = new UIOverlay(this.game.width/2, this.game.height/2, now, this.game, 128);
+                    // Add a "Build" in the last run
+                    if(now === 1) {
+                        let buildOverlay = new UIOverlay(this.game.width/2, this.game.height/2, "BUILD", this.game, 128);
+                        tinydefence.game.ui.addOverlay(buildOverlay.start(1000));
+                    }
+                // Add a small countdown in the infobar in all other waves
+                } else {
+                    let wavetext = tinydefence.game.ui.waveText;
+                    overlay = new UIOverlay(wavetext.x + wavetext.width + 20, wavetext.y, now, this.game, 32);
+                    overlay.text.anchor.setTo(0, 0);
+                    overlay.yOffset = 0;
+                }
+                tinydefence.game.ui.addOverlay(overlay.start());
+            }
+            
+            this.last = Math.floor((this.wavestart - this.game.time.now)/1000);
             
         } else {
             // Drop new enemies?
@@ -96,7 +120,10 @@ tinydefence.rungame = {
                 let bonus = Math.round(this.model.money * 0.1);
                 this.model.money += bonus;
 
-                let overlay = new UIOverlay(tinydefence.game.ui.moneyText.x, tinydefence.game.ui.moneyText.y, "    " + bonus, this.game);
+                let moneytext = tinydefence.game.ui.moneyText;
+                let overlay = new UIOverlay(moneytext.x + moneytext.width, moneytext.y, bonus, this.game);
+                overlay.text.anchor.setTo(1, 1);
+
                 tinydefence.game.ui.addOverlay(overlay.start());
     
                 this.nextWaveOrLevel();
