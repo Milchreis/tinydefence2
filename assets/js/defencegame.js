@@ -103,7 +103,7 @@ class DefenceGame {
     }
 
     checkInput(x, y) {
-        if(this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown) {
+        if((this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown) && !tinydefence.game.ui.isCursorOverMenu()) {
             this.wasButtonDown = true;
         } else {
             if(this.wasButtonDown) {
