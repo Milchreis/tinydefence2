@@ -27,36 +27,34 @@ class UIOverlay {
         this.text.visible = false;
     }
     
-    start() {
-        this.endTime = this.game.time.now + this.liveTime;
+    start(inMillis) {
+        inMillis = inMillis || 0;
+
         this.text.visible = true;
         this.text.alpha = 0.0;
-        this.game.add.tween(this.text)
-            .to({ alpha: 1, 
-                x: this.text.x - this.xOffset,  
-                y: this.text.y - this.yOffset
-            }, 75, this.easing, true);
+        
+        this.game.time.events.add(inMillis, this.playInTween, this);
+        this.game.time.events.add(inMillis + this.liveTime , this.playOutTween, this);
+        
         return this;
     }
+    
+    playOutTween() {
+        this.game.add.tween(this.text)
+        .to({
+            alpha: 0, 
+            y: this.text.y + this.yOffset, 
+            x: this.text.x + this.xOffset
+        }, 250, this.easing, true);
+    }
+    
+    playInTween() {
+        this.game.add.tween(this.text)
+        .to({ alpha: 1, 
+            x: this.text.x - this.xOffset,  
+            y: this.text.y - this.yOffset
+        }, 75, this.easing, true);
 
-    update() {
-        // Skip if the overlay isn't started
-        if(this.endTime === undefined) {
-            return;
-        }
-
-        if(this.game.time.now > this.endTime) {
-            // Play stop tween
-            this.game.add.tween(this.text)
-                .to({
-                    alpha: 0, 
-                    y: this.text.y + this.yOffset, 
-                    x: this.text.x + this.xOffset
-                }, 250, this.easing, true);
-                
-            // stop
-            this.finished = true;
-        }
     }
 
 }
