@@ -47,15 +47,13 @@ class UI {
         this.buttonCoverage.onInputOut.add(() => this.isOverMenu = false, this);
     }
 
-    addOverlay(uioverlay) {
-        this.overlays.push(uioverlay);
+    isCursorOverMenu() {
+        return isOverButton(this.game.input.x, this.game.input.y, this.buttonCoverage);
     }
 
-    updateOverlays() {
-        // Remove finished overlays
+    addOverlay(uioverlay) {
         this.overlays = this.overlays.filter(o => !o.finished);
-        // Update overlays
-        this.overlays.forEach(o => o.update());
+        this.overlays.push(uioverlay);
     }
 
     onToggleCoverage() {

@@ -2,6 +2,13 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function isOverButton(x, y, button) {
+    return (
+        x >= button.x && x <= button.x + button.width &&
+        y >= button.y && y <= button.y + button.height
+    );
+}
+
 function getWaypoints(start, end, tilemap) {
     let waypoints = [];
     let current = start;
