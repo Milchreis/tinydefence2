@@ -13,6 +13,7 @@ tinydefence.preload.prototype = {
 		this.game.load.spritesheet('crab', 'assets/images/enemyCrab.png', 16, 16);
 
 		this.game.load.spritesheet('buttonCoverage', 'assets/images/buttonCoverage.png', 32, 18);
+		this.game.load.spritesheet('buttonLevel', 'assets/images/buttonLevel.png', 450, 70);
 
 		this.game.load.bitmapFont('font_white', 
 			'assets/fonts/font.png',
