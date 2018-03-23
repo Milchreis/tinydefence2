@@ -1,0 +1,53 @@
+{
+	"color": "0xA52A2A",
+	"tiers": [
+		{
+			"attributes": {
+				"price": 50,
+				"range": 3.1,
+				"fire_rate": 1000,
+				"bullet_speed": 500,
+				"damage": 2.0,
+				"damage_duration": null,
+				"splash_range": null,
+				"splash_damage": null,
+				"slowdown": null,
+				"slowdown_duration": null,
+				"chain_leaps": null,
+				"chain_damage": null
+			},
+			"sprites": {
+				"tower": "tower_1.png",
+				"shot": "bullet_1.png",
+				"hit": null
+			},
+			"sounds": {
+				"shot": "shot_1.png"
+			}
+		},
+		{
+			"attributes": {
+				"price": 75,
+				"range": 3.4,
+				"fire_rate": 800,
+				"bullet_speed": 500,
+				"damage": 4.1,
+				"damage_duration": null,
+				"splash_range": null,
+				"splash_damage": null,
+				"slowdown": null,
+				"slowdown_duration": null,
+				"chain_leaps": null,
+				"chain_damage": null
+			},
+			"sprites": {
+				"tower": "tower_1.png",
+				"shot": "bullet_1.png",
+				"hit": null
+			},
+			"sounds": {
+				"shot": "shot_1.png"
+			}
+		}
+	]
+}

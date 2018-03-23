@@ -115,7 +115,7 @@ class DefenceGame {
 
     onClick(x, y) {
         if(this.isFieldFree(x, y)) {
-            let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
+            let tower = new Tower(this.game, x * this.twidth, y * this.twidth, 0);
 
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");
