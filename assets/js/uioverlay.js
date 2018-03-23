@@ -5,7 +5,6 @@ class UIOverlay {
         this.x = x;
         this.y = y;
 
-        this.finished = false;
         this.liveTime = time || 300;
         this.easingIn = easingIn || Phaser.Easing.Back.In;
         this.easingOut = easingOut || Phaser.Easing.Back.Out;
@@ -22,39 +21,37 @@ class UIOverlay {
             text,
             size);
 
-        this.text.visible = false;
+        this.text.anchor.setTo(0.5, 0.5);
+        this.text.alpha = 0.0;
+        this.finished = false;
     }
     
-    start() {
-        this.endTime = this.game.time.now + this.liveTime;
-        this.text.visible = true;
-        this.text.alpha = 0.0;
+    start(inMillis) {
+        inMillis = inMillis || 0;
+        
+        this.game.time.events.add(inMillis, this.playInTween, this);
+        this.game.time.events.add(inMillis + this.liveTime , this.playOutTween, this);
+        
+        return this;
+    }
+
+    playOutTween() {
+        let tween = this.game.add.tween(this.text)
+            .to({
+                alpha: 0, 
+                y: this.text.y + this.yOffset, 
+                x: this.text.x + this.xOffset
+            }, 250, this.easing, true);
+
+        tween.onComplete.add(() => this.finished = true);
+    }
+    
+    playInTween() {
         this.game.add.tween(this.text)
             .to({ alpha: 1, 
                 x: this.text.x - this.xOffset,  
                 y: this.text.y - this.yOffset
             }, 75, this.easing, true);
-        return this;
-    }
-
-    update() {
-        // Skip if the overlay isn't started
-        if(this.endTime === undefined) {
-            return;
-        }
-
-        if(this.game.time.now > this.endTime) {
-            // Play stop tween
-            this.game.add.tween(this.text)
-                .to({
-                    alpha: 0, 
-                    y: this.text.y + this.yOffset, 
-                    x: this.text.x + this.xOffset
-                }, 250, this.easing, true);
-                
-            // stop
-            this.finished = true;
-        }
     }
 
 }
