@@ -36,20 +36,21 @@ class LevelSelection {
     loadMaps() {
         this.maps = tinydefence.maps.slice(this.currentPageIndex * this.levelsPerSite, (this.currentPageIndex+1) * this.levelsPerSite);
         this.buttons = [];
-    
+        
         this.maps.forEach((m, i) => {
             let group = tinydefence.game.add.group();
-    
+            
             let button = tinydefence.game.add.button(
                 this.x + 30, 
                 this.y + (i * 80), 
                 'buttonLevel', () => this.onLevelClicked(m), 
                 this, 1, 0, 0);
-            
-                let text = tinydefence.game.add.bitmapText(
-                    this.x + 170, 
-                    this.y + 25 + (i * 80), 
-                    'font_white', m.name, 32);
+            button.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
+        
+            let text = tinydefence.game.add.bitmapText(
+                this.x + 170, 
+                this.y + 25 + (i * 80), 
+                'font_white', m.name, 32);
                 
             group.add(button);
             group.add(text);
