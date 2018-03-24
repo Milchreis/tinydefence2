@@ -90,7 +90,7 @@ class Tower {
         this.drawRange();
 
         // Stats with 1 decimal digit
-        this.statsText.setText("Cannon L." + this.tier + 1
+        this.statsText.setText("Cannon L." + (this.tier + 1)
             + "\nDamage: " + Math.round(this.attr.damage * 10) / 10
             + "\nRange: " + Math.round(this.attr.range * 10) / 10
             + "\nReload: " + Math.round(this.attr.fire_rate / 100) / 10);
