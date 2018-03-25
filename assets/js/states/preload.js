@@ -24,6 +24,9 @@ tinydefence.preload.prototype = {
 			'assets/fonts/font_red.png',
 			'assets/fonts/font_red.fnt');
 
+		tinydefence.mapTest = new Map(this.game, 'assets/maps/Level1');
+		tinydefence.mapTest.preload();
+
 		// Load all defined maps in maps.js
 		tinydefence.maps.forEach(map => {
 			this.game.load.tilemap(map.key, map.data, null, Phaser.Tilemap.TILED_JSON);

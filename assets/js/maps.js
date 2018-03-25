@@ -1,5 +1,61 @@
 var tinydefence = tinydefence || {};
 
+class Map {
+    constructor(game, pathDirMap) {
+        this.game = game
+
+        this.pathDirMap = pathDirMap;
+
+        this.name = null;
+        this.tilemap = null;
+        this.sprite = null;
+    }
+
+    preload() {
+        this.keyTilemap = `map_${Map.count}`;
+        let pathFileJSON = `${this.pathDirMap}\\map.json`;
+        this.game.load.tilemap(this.keyTilemap, pathFileJSON, null, Phaser.Tilemap.TILED_JSON);
+
+        this.keySprite = `tileset_${Map.count}`;
+        let pathFileSprite = `${this.pathDirMap}\\map.png`;
+        this.game.load.image(this.keySprite, pathFileSprite);
+
+        Map.count += 1;
+    }
+
+    get width() {
+        return this.tilemap.width;
+    }
+
+    get height() {
+        return this.tilemap.height;
+    }
+
+    getTile(x, y, nameLayer) {
+        let layer = this.tilemapLayers[nameLayer];
+
+        return this.tilemap.getTile(x, y, layer);
+    }
+
+    setActive() {
+        this.tilemap = this.game.add.tilemap(this.keyTilemap);
+
+        this.tilemapLayers = {
+            'Level': this.tilemap.createLayer('Level'),
+            'Waypoints': this.tilemap.createLayer('Waypoints')
+        };
+
+        this.tilemapLayers.Waypoints.visible = false;
+    
+        //this.data = this.game.cache.getTilemapData(this.keyTilemap).data;
+
+        let keyTileset = this.tilemap.tilesets[0].name;
+        this.tilemap.addTilesetImage(keyTileset, this.keySprite);
+    }
+}
+Map.count = 0;
+
+tinydefence.Map = Map
 
 tinydefence.maps = [
     

@@ -28,13 +28,16 @@ tinydefence.rungame = {
 
     createMap() {
         // Load current map
+        tinydefence.mapTest.setActive();
+        console.log(tinydefence.mapTest.getTile(1, 1, "Waypoints").index);
+
         this.currentMap = tinydefence.maps[this.model.currentMapIndex];
         
         // Create tilemap
-        this.map = this.game.add.tilemap(this.currentMap.key);
-        this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
-        this.layer = this.map.createLayer('Level');
-        this.layer.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
+        //this.map = this.game.add.tilemap(this.currentMap.key);
+        //this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
+        //this.layer = this.map.createLayer('Level');
+        //this.layer.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
