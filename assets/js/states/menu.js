@@ -7,23 +7,19 @@ tinydefence.menu = {
 		this.game.stage.backgroundColor = "#1e1a17";
 		
 		// Load logo
-		this.logo = this.game.add.sprite(this.game.width / 2, this.game.height/2, 'logo');
-		this.logo.anchor.x = 0.5;
-		this.logo.anchor.y = 0.5;
-	
-		this.text = this.game.add.bitmapText(
-            this.game.width/2, this.game.height - 32,
-            'font_white', 
-            "Click or press to start",
-			32);
+		this.logo = this.game.add.sprite(60, 60, 'logo');
 
-		this.text.anchor.setTo(0.5, 0.5);
+		this.levelselection = new LevelSelection();
+		this.levelselection.setOnLevelSelected((map, index) => {
+			tinydefence.game.model.currentMapIndex = index;
+			this.game.state.start("Game");
+		});
 	},
 	
-	update: function() {
-
-		if(this.game.input.pointer1.isDown || this.game.input.mousePointer.isDown) {
-            this.game.state.start("Game");
-        }
+	addTweens: function() {
+		// Incoming logo with bouncing effect
+		// Currently not used, because it's to much with tweened level selection
+		this.game.add.tween(this.logo)
+			.from({y: -300}, 1800, Phaser.Easing.Bounce.Out, true, 250);
 	},
 };
