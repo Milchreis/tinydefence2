@@ -17,13 +17,14 @@ tinydefence.rungame = {
             lives: tinydefence.game.model.lives,
         }
         
+        tinydefence.game.ui = new UI(tinydefence.game);
+        
         this.gameEnd = false;
        
         this.createMap();
 
         this.model.currentWave = -1;
         this.nextWaveOrLevel();
-        tinydefence.game.ui = new UI(tinydefence.game);
     },
 
     createMap() {
