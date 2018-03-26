@@ -3,22 +3,6 @@ var tinydefence = tinydefence || {};
 tinydefence.rungame = {
 
     preload: function() {
-        // Load all defined towers in tower.js
-        tinydefence.towers.forEach(tower => {
-            let t = this.game.cache.getJSON(tower.key + '_json');
-
-            t.tiers.forEach((tier, i) => {
-                this.game.load.spritesheet(
-                    tower.key + '_' + i + '_tower',
-                    'assets/towers/' + tower.key + '/' + tier.sprites.tower, 16, 16);
-                this.game.load.image(
-                    tower.key + '_' + i + '_shot',
-                    'assets/towers/' + tower.key + '/' + tier.sprites.shot);
-            });
-
-            tower.color = t.color;
-            tower.tiers = t.tiers;
-        });
     },
 
     create: function() {

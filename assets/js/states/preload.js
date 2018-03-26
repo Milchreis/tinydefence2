@@ -13,15 +13,6 @@ tinydefence.preload.prototype = {
 		this.game.load.spritesheet('buttonLevel', 'assets/images/buttonLevel.png', 225, 35);
 		this.game.load.spritesheet('buttonMenuNav', 'assets/images/buttonMenuNav.png', 20, 18);
 
-
-		// this.game.load.spritesheet('Cannon_0_tower', 'assets/towers/Cannon/tower_1.png', 16, 16);
-		// this.game.load.image('Cannon_0_shot', 'assets/towers/Cannon/bullet_1.png');
-
-
-		tinydefence.towers.forEach(tower => {
-			this.game.load.json(tower.key + '_json', 'assets/towers/' + tower.key + '/properties.json');
-		});
-
 		this.game.load.bitmapFont('font_white', 
 			'assets/fonts/font.png',
 			'assets/fonts/font.fnt');
@@ -37,6 +28,23 @@ tinydefence.preload.prototype = {
 			this.game.load.tilemap(map.key, map.data, null, Phaser.Tilemap.TILED_JSON);
 			this.game.load.image(map.key + '_sprites', map.sprite);
 		});
+
+		// Load all towers
+        tinydefence.towerManager.forEach(tower => {
+            let towerProperties = this.game.cache.getJSON(tower.key + '_properties');
+            tower.color = towerProperties.color;
+            tower.tiers = towerProperties.tiers;
+
+            towerProperties.tiers.forEach((tier, i) => {
+            	// TODO tier specific spritesheets
+            	let path = 'assets/towers/' + tower.key + '/';
+            	tier.spritesheet_tower = tower.key + '_' + i  + '_spritesheet_tower';
+            	tier.spritesheet_shot = tower.key + '_' + i  + '_spritesheet_shot';
+
+                this.game.load.spritesheet(tier.spritesheet_tower, path + tier.sprites.tower, 16, 16);
+                this.game.load.image(tier.spritesheet_shot, path + tier.sprites.shot);
+            });
+        });
 	},
 	
 	create: function() {

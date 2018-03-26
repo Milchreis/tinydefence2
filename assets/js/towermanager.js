@@ -1,7 +1,7 @@
 var tinydefence = tinydefence || {};
 
 
-tinydefence.towers = [
+tinydefence.towerManager = [
     {
         key: 'Cannon'
     }

@@ -8,8 +8,9 @@ class Tower {
         this.type = type;
         this.tier = 0;
         
-        this.color = tinydefence.towers[this.type].color;
-        this.maxTier = tinydefence.towers[this.type].tiers.length - 1;
+        // TODO get tower by type key instead of index
+        this.color = tinydefence.towerManager[this.type].color;
+        this.maxTier = tinydefence.towerManager[this.type].tiers.length - 1;
         this.init();
 
         this.lastAttack = 0;
@@ -20,9 +21,10 @@ class Tower {
 
     init()
     {
-        this.attr = tinydefence.towers[this.type].tiers[this.tier].attributes;
-        this.towerSprite = tinydefence.towers[this.type].key + '_' + this.tier + '_tower';
-        this.shotSprite = tinydefence.towers[this.type].key + '_' + this.tier + '_shot';
+        // TODO get tower by type key instead of index
+        this.attr = tinydefence.towerManager[this.type].tiers[this.tier].attributes;
+        this.towerSprite = tinydefence.towerManager[this.type].tiers[this.tier].spritesheet_tower;
+        this.shotSprite = tinydefence.towerManager[this.type].tiers[this.tier].spritesheet_shot;
     }
 
     searchForEnemy(enemies) {
@@ -158,6 +160,7 @@ class Tower {
     }
 
     getPrice(tier) {
-        return tinydefence.towers[this.type].tiers[tier].attributes.price;
+        // TODO get tower by type key instead of index
+        return tinydefence.towerManager[this.type].tiers[tier].attributes.price;
     }
 }
