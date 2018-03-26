@@ -6,33 +6,33 @@ class Buildmenu {
         this.upgradeTowerCallback = null;
         this.sellTowerCallback = null;
         this.isOpen = false;
-
-        this.graphics = tinydefence.game.add.graphics(0, 0);
         this.menu;
     }
-
+    
     renderMenu(items) {
-
-        let width = 100;
-        // For testing
-        this.graphics.clear();
-        this.graphics.beginFill(0x000000, 1);
-        this.graphics.drawRect(0, 10, width, 22);
-        this.graphics.endFill();
-        this.graphics.beginFill(0xFFFFFF, 1);
-        this.graphics.drawRect(0, 10, width, 20);
-        this.graphics.endFill();
         
-        this.graphics.beginFill(0xFFFFFF, 1);
-        this.graphics.moveTo(width/2 - 10, 10);
-        this.graphics.lineTo(width/2, 0);
-        this.graphics.lineTo(width/2 + 10, 10);
-        this.graphics.endFill();
+        let width = 100;
+        
+        let bmd = tinydefence.game.add.bitmapData(width + 4, 28);
+        let sprite = tinydefence.game.add.sprite(0, 0, 'buildmenu');
+        
+        // left
+        bmd.copyRect(sprite, new Phaser.Rectangle(0, 0, 2, 22), 0, 6);
+        
+        // mid
+        for(let i=0; i<width; i++) {
+            bmd.copyRect(sprite, new Phaser.Rectangle(2, 0, 1, 22), 2 + i, 6);
+        }
+        
+        // right
+        bmd.copyRect(sprite, new Phaser.Rectangle(3, 0, 2, 22), width+1, 6);
+        
+        // top edge
+        bmd.copyRect(sprite, new Phaser.Rectangle(5, 0, 11, 7), (width+4)/2 - 5, 0);
 
-        items.forEach(i => {
-        });
+        sprite.destroy();
 
-        return tinydefence.game.add.image(0, 0, this.graphics.generateTexture());
+        return tinydefence.game.add.image(0, 0, bmd);
     }
 
     openMenu(x, y, tile, tower) {
@@ -43,7 +43,10 @@ class Buildmenu {
             this.menu.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
             this.menu.anchor.x = 0.5;
             this.menu.x = x;
-            this.menu.y = y + 10;
+            this.menu.y = y;
+
+            tinydefence.game.add.tween(this.menu)
+                .from({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
         }
         // show menu for upgrading or selling towers 
         else {
@@ -56,10 +59,14 @@ class Buildmenu {
     }
     
     closeMenu() {
-        this.menu.destroy();
-        this.isOpen = false;
-    }
+        let tween = tinydefence.game.add.tween(this.menu)
+            .to({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
 
+        tween.onComplete.add(() => {
+            this.menu.destroy()
+            this.isOpen = false;
+        }, this);
+    }
 
     /** args: (tower, x, y) */
     onBuildTower(callback) {
