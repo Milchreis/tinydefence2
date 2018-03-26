@@ -4,6 +4,11 @@ tinydefence.boot = {
 
 	preload: function() {
 		this.game.load.image("loading", "assets/images/loading.png");
+
+		// Load all map configurations
+		tinydefence.mapManager.forEach(map => {
+			this.game.load.json(map.key + '_properties', 'assets/maps/' + map.key + '/properties.json');
+		});
 	},
   
 	create: function() {

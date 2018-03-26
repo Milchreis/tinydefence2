@@ -28,16 +28,18 @@ tinydefence.rungame = {
 
     createMap() {
         // Load current map
-        this.currentMap = tinydefence.maps[this.model.currentMapIndex];
+        this.currentMap = tinydefence.mapManager[this.model.currentMapIndex];
         
         // Create tilemap
-        this.map = this.game.add.tilemap(this.currentMap.key);
-        this.map.addTilesetImage('Sprites', this.currentMap.key + '_sprites');
-        this.layer = this.map.createLayer('Level');
+        // TODO Warum this.tilemap/layer?
+        this.tilemap = this.game.add.tilemap(this.currentMap.tilemap);
+        this.tilemap.addTilesetImage('Sprites', this.currentMap.spritesheet);
+        // TODO Nicht hart codiert 'Level', sondern mehrere grafische Layer laden können
+        this.layer = this.tilemap.createLayer('Level');
         this.layer.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         
-        let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
-        let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
+        let mapdata = this.game.cache.getTilemapData(this.currentMap.tilemap).data.layers[0].data;
+        let waypointdata = this.game.cache.getTilemapData(this.currentMap.tilemap).data.layers[1].data;
 
         this.defencegame = new DefenceGame(16 * tinydefence.scalefactor, 16 * tinydefence.scalefactor, 30, 15, mapdata, waypointdata, this.game, this.model);
     },
@@ -48,7 +50,7 @@ tinydefence.rungame = {
 
         // Next map if no next wave exists and if next map is in array
         if(this.model.currentWave >= this.currentMap.waves.length 
-            && this.model.currentMapIndex + 1 < tinydefence.maps.length) {
+            && this.model.currentMapIndex + 1 < tinydefence.mapManager.length) {
 
             // Next map/level
             this.model.currentMapIndex++;
@@ -64,7 +66,8 @@ tinydefence.rungame = {
         if(this.model.currentWave < this.currentMap.waves.length) {
 
             // Get current wave and create a clone
-            this.wave = Object.assign({}, this.currentMap.waves[this.model.currentWave]);
+            // TODO add multiple enemies to wave not just the first one
+            this.wave = Object.assign({}, this.currentMap.waves[this.model.currentWave].enemies[0]);
     
             this.nextEnemy = this.game.time.now;
             this.wavestart = this.game.time.now + 5000;
@@ -108,10 +111,10 @@ tinydefence.rungame = {
             
         } else {
             // Drop new enemies?
-            if(this.game.time.now > this.nextEnemy && this.wave.maxEnemies > 0) {
-                this.wave.maxEnemies -= 1;
-                this.defencegame.addEnemy(this.wave.enemyHealth, this.wave.enemySpeed, this.wave.points, this.wave.type);
-                this.nextEnemy = this.game.time.now + this.wave.dropInMillis;
+            if(this.game.time.now > this.nextEnemy && this.wave.amount > 0) {
+                this.wave.amount -= 1;
+                this.defencegame.addEnemy(this.wave.health, this.wave.speed, this.wave.reward, this.wave.type);
+                this.nextEnemy = this.game.time.now + this.wave.spawnInterval;
             }
     
             // All enemies dead?

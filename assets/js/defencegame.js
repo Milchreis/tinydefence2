@@ -11,14 +11,15 @@ class DefenceGame {
         this.map = map;
         this.waypointData = waypointData;
         this.model = model;
-        this.mapMeta = tinydefence.maps[this.model.currentMapIndex];
+        this.mapMeta = tinydefence.mapManager[this.model.currentMapIndex];
 
         this.towermap = new Array(map.length);
         this.towers = [];
         
         this.enemies = [];
 
-        this.waypoints = getWaypoints(this.mapMeta.start, this.mapMeta.end, this);
+        // TODO layers nicht hart codiert übergeben und start/end aus tilemap statt config
+        this.waypoints = getWaypoints(this.mapMeta.layers[1].start, this.mapMeta.layers[1].end, this);
 
         this.selector = this.game.add.sprite(0, 0, 'selection');
         this.selector.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
