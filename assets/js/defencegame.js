@@ -129,7 +129,7 @@ class DefenceGame {
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
-            if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
+            if(tower.tier < tower.maxTier && this.model.money >= tower.getPrice(tower.tier + 1)) {
                 console.log("Buy tower upgrade");
                 tower.upgrade();
                 this.model.money -= tower.getPrice(tower.tier);

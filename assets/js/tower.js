@@ -152,7 +152,7 @@ class Tower {
     }
 
     upgrade() {
-        console.log("upgrading tower");
+        console.log("Upgrading tower to level " + (this.tier + 2));
         this.tier ++;
         this.init();
     }
