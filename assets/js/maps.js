@@ -43,7 +43,7 @@ tinydefence.maps = [
         end: {x: 28, y: 10},
         // Waves
         waves: [
-            {dropInMillis: 1500, maxEnemies: 2,  enemyHealth: 15,  enemySpeed: 30,  points: 10,  type: 'crab'},
+            {dropInMillis: 1500, maxEnemies: 2,  enemyHealth: 15,  enemySpeed: 30,  points: 10, type: 'crab'},
             {dropInMillis: 2000, maxEnemies: 1,  enemyHealth: 100, enemySpeed: 40,  points: 30, type: 'crab'},
             {dropInMillis: 650,  maxEnemies: 30, enemyHealth: 5,   enemySpeed: 100, points: 2,  type: 'crab'},
             {dropInMillis: 1000, maxEnemies: 10, enemyHealth: 15,  enemySpeed: 60,  points: 5,  type: 'crab'},
