@@ -1,0 +1,45 @@
+{
+	"label": "Beach Defense",
+	"lives": 5,
+	"layers": [
+		{
+			"type": "graphics"
+		},
+		{
+			"type": "waypoints",
+			"start": {"x": 1, "y": 10},
+			"way": 2,
+			"end": {"x": 28, "y": 10}
+		}
+	],
+	"waves": [
+		{
+			"enemies": [
+				{
+					"layer": 1,
+					"delay": null,
+					"type": "crab",
+					"health": 10,
+					"amount": 2,
+					"reward": 5,
+					"speed": 20,
+					"spawnInterval": 1500
+				}
+			]
+		},
+		{
+			"enemies": [
+				{
+					"layer": 1,
+					"delay": null,
+					"type": "crab",
+					"health": 20,
+					"amount": 4,
+					"reward": 5,
+					"speed": 40,
+					"spawnInterval": 1500
+				}
+			]
+		}
+	]
+}

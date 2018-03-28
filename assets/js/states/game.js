@@ -28,7 +28,7 @@ tinydefence.rungame = {
 
     createMap() {
         // Load current map
-        this.currentMap = tinydefence.mapManager[this.model.currentMapIndex];
+        this.currentMap = tinydefence.mapManager.getMaps()[this.model.currentMapIndex];
         
         // Create tilemap
         // TODO Warum this.tilemap/layer?
@@ -50,7 +50,7 @@ tinydefence.rungame = {
 
         // Next map if no next wave exists and if next map is in array
         if(this.model.currentWave >= this.currentMap.waves.length 
-            && this.model.currentMapIndex + 1 < tinydefence.mapManager.length) {
+            && this.model.currentMapIndex + 1 < tinydefence.mapManager.getMaps().length) {
 
             // Next map/level
             this.model.currentMapIndex++;

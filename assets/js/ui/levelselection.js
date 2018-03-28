@@ -34,7 +34,7 @@ class LevelSelection {
     }
     
     loadMaps() {
-        this.maps = tinydefence.mapManager.slice(this.currentPageIndex * this.levelsPerSite, (this.currentPageIndex+1) * this.levelsPerSite);
+        this.maps = tinydefence.mapManager.getMaps().slice(this.currentPageIndex * this.levelsPerSite, (this.currentPageIndex+1) * this.levelsPerSite);
         this.buttons = [];
         
         this.maps.forEach((m, i) => {
@@ -68,7 +68,7 @@ class LevelSelection {
     }
 
     hasNextPage() {
-        return this.currentPageIndex + 1 < tinydefence.mapManager.length/this.levelsPerSite;
+        return this.currentPageIndex + 1 < tinydefence.mapManager.getMaps().length/this.levelsPerSite;
     }
 
     hasPreviousPage() {
@@ -100,7 +100,7 @@ class LevelSelection {
     }
 
     onLevelClicked(map) {
-        this.levelSelectedCallback(map, tinydefence.mapManager.findIndex(m => m.key === map.key));
+        this.levelSelectedCallback(map, tinydefence.mapManager.getMaps().findIndex(m => m.key === map.key));
     }
 
     setOnLevelSelected(callback) {

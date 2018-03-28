@@ -11,7 +11,7 @@ class DefenceGame {
         this.map = map;
         this.waypointData = waypointData;
         this.model = model;
-        this.mapMeta = tinydefence.mapManager[this.model.currentMapIndex];
+        this.mapMeta = tinydefence.mapManager.getMaps()[this.model.currentMapIndex];
 
         this.towermap = new Array(map.length);
         this.towers = [];
