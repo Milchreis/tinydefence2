@@ -121,7 +121,7 @@ tinydefence.rungame = {
                 this.model.money += bonus;
 
                 let moneytext = tinydefence.game.ui.moneyText;
-                let overlay = new UIOverlay(moneytext.x + moneytext.width, moneytext.y, bonus, this.game);
+                let overlay = new UIOverlay(moneytext.x + moneytext.width, moneytext.y, "+" + bonus, this.game);
                 overlay.text.anchor.setTo(1, 1);
 
                 tinydefence.game.ui.addOverlay(overlay.start());
