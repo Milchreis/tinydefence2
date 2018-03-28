@@ -116,7 +116,7 @@ class DefenceGame {
     onClick(x, y) {
         if(this.isFieldFree(x, y)) {
             // TODO get tower by type key instead of hard coded index 0
-            let tower = new Tower(this.game, x * this.twidth, y * this.twidth, 0);
+            let tower = new Tower(this.game, x * this.twidth, y * this.twidth, tinydefence.towerManager.getTowerType('Cannon'));
 
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");

@@ -5,10 +5,8 @@ tinydefence.boot = {
 	preload: function() {
 		this.game.load.image("loading", "assets/images/loading.png");
 
-		// Load all tower properties
-		tinydefence.towerManager.forEach(tower => {
-			this.game.load.json(tower.key + '_properties', 'assets/towers/' + tower.key + '/properties.json');
-		});
+		// Create tower manager
+		tinydefence.towerManager = new TowerManager(this.game);
 	},
   
 	create: function() {

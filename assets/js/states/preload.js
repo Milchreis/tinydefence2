@@ -29,22 +29,8 @@ tinydefence.preload.prototype = {
 			this.game.load.image(map.key + '_sprites', map.sprite);
 		});
 
-		// Load all towers
-        tinydefence.towerManager.forEach(tower => {
-            let towerProperties = this.game.cache.getJSON(tower.key + '_properties');
-            tower.color = towerProperties.color;
-            tower.tiers = towerProperties.tiers;
-
-            towerProperties.tiers.forEach((tier, i) => {
-            	// TODO tier specific spritesheets
-            	let path = 'assets/towers/' + tower.key + '/';
-            	tier.spritesheet_tower = tower.key + '_' + i  + '_spritesheet_tower';
-            	tier.spritesheet_shot = tower.key + '_' + i  + '_spritesheet_shot';
-
-                this.game.load.spritesheet(tier.spritesheet_tower, path + tier.sprites.tower, 16, 16);
-                this.game.load.image(tier.spritesheet_shot, path + tier.sprites.shot);
-            });
-        });
+		// Load all tower assets
+		tinydefence.towerManager.load();
 	},
 	
 	create: function() {
