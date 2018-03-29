@@ -6,12 +6,9 @@ tinydefence.preload.prototype = {
 
 	preload: function() {
 		this.game.load.image('logo', 'assets/images/logo.png');
-		this.game.load.image('bullet', 'assets/images/bullet.png');
 		this.game.load.spritesheet('selection', 'assets/images/selection.png', 16, 16);
-		this.game.load.spritesheet('tower', 'assets/images/tower.png', 16, 16);
 		this.game.load.spritesheet('enemy', 'assets/images/enemy.png', 16, 16);
 		this.game.load.spritesheet('crab', 'assets/images/enemyCrab.png', 16, 16);
-
 		this.game.load.spritesheet('buttonCoverage', 'assets/images/buttonCoverage.png', 32, 18);
 		this.game.load.spritesheet('buttonLevel', 'assets/images/buttonLevel.png', 225, 35);
 		this.game.load.spritesheet('buttonMenuNav', 'assets/images/buttonMenuNav.png', 20, 18);
@@ -31,6 +28,9 @@ tinydefence.preload.prototype = {
 			this.game.load.tilemap(map.key, map.data, null, Phaser.Tilemap.TILED_JSON);
 			this.game.load.image(map.key + '_sprites', map.sprite);
 		});
+
+		// Load all tower assets
+		tinydefence.towerManager.load();
 	},
 	
 	create: function() {

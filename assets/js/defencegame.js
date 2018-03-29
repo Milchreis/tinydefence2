@@ -115,7 +115,8 @@ class DefenceGame {
 
     onClick(x, y) {
         if(this.isFieldFree(x, y)) {
-            let tower = new Tower(this.game, x * this.twidth, y * this.twidth);
+            // TODO get tower by type key instead of hard coded index 0
+            let tower = new Tower(this.game, x * this.twidth, y * this.twidth, tinydefence.towerManager.getTowerType('Cannon'));
 
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");
@@ -129,7 +130,7 @@ class DefenceGame {
         }
         else if (this.isTower(x, y)) {
             let tower = this.get(x, y, this.towermap);
-            if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
+            if(tower.tier < tower.maxTier && this.model.money >= tower.getPrice(tower.tier + 1)) {
                 console.log("Buy tower upgrade");
                 tower.upgrade();
                 this.model.money -= tower.getPrice(tower.tier);
