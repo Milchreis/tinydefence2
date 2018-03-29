@@ -30,12 +30,15 @@ class DefenceGame {
         this.wasButtonDown = false;
 
         // Events for build menu
-        tinydefence.game.ui.buildmenu.onBuildTower((tower, x, y) => {
+        tinydefence.game.ui.buildmenu.onBuildTower((towerType, x, y) => {
 
+            let coords = this.screenToTileCoords(x, y);
+            let tower = new Tower(this.game, coords.x * this.twidth, coords.y * this.theight, towerType);
+            
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");
                 tower.build();
-                this.addTower(tower, x, y);
+                this.addTower(tower, coords.x, coords.y);
                 this.model.money -= tower.getPrice(tower.tier);
             } else {
                 console.log("Not enougth money");
@@ -55,7 +58,7 @@ class DefenceGame {
 
         });
 
-        tinydefence.game.ui.buildmenu.onSellTower((tower) => {
+        tinydefence.game.ui.buildmenu.onSellTower((tower, x, y) => {
 
         });
     }
@@ -194,8 +197,12 @@ class DefenceGame {
     }
 
     getCursor() {
-        let x = Math.floor((this.game.input.x * this.game.scale.parentScaleFactor.x) / (this.twidth));
-        let y = Math.floor((this.game.input.y * this.game.scale.parentScaleFactor.y) / (this.theight)); 
+        return(this.screenToTileCoords(this.game.input.x, this.game.input.y));
+    }
+
+    screenToTileCoords(xscreen, yscreen) {
+        let x = Math.floor((xscreen * this.game.scale.parentScaleFactor.x) / (this.twidth));
+        let y = Math.floor((yscreen * this.game.scale.parentScaleFactor.y) / (this.theight)); 
         // Contraints
         x = x >= this.width || x < 0 ? null : x; 
         y = y >= this.height || y < 0 ? null : y; 
