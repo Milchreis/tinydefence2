@@ -15,6 +15,11 @@ tinydefence.game.state.add("Preload", tinydefence.preload);
 tinydefence.game.state.add("Menu", tinydefence.menu);
 tinydefence.game.state.add("Game", tinydefence.rungame);
 
+tinydefence.constants = {
+    TILE_WIDTH: 16,
+    TILE_HEIGHT: 16,
+}
+
 tinydefence.game.model = {
     currentMapIndex: 1,
     money: 150,

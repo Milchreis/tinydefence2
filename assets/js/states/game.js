@@ -40,7 +40,10 @@ tinydefence.rungame = {
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
 
-        this.defencegame = new DefenceGame(16 * tinydefence.scalefactor, 16 * tinydefence.scalefactor, 30, 15, mapdata, waypointdata, this.game, this.model);
+        this.defencegame = new DefenceGame(
+            tinydefence.constants.TILE_WIDTH * tinydefence.scalefactor, 
+            tinydefence.constants.TILE_HEIGHT * tinydefence.scalefactor, 
+            30, 15, mapdata, waypointdata, this.game, this.model);
     },
 
     nextWaveOrLevel() {

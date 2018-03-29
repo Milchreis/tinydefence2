@@ -35,12 +35,12 @@ class Buildmenu {
 
     showMenu(x, y, items) {
 
-        let width = (items.length * 16) + (items.length * 2);
+        let width = (items.length * tinydefence.constants.TILE_WIDTH) + ((items.length-1) * 2);
         this.menu = this.renderMenu(width);
         this.menu.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.menu.anchor.x = 0.5;
         this.menu.x = x;
-        this.menu.y = y;
+        this.menu.y = y + (tinydefence.constants.TILE_HEIGHT*tinydefence.scalefactor);
         this.menu.items = items;
 
         let xBegin = this.menu.x - this.menu.width/2;
@@ -51,13 +51,19 @@ class Buildmenu {
             items[i].x = xBegin + 4 + (i * (16*tinydefence.scalefactor));
             items[i].x = i > 0 ? items[i].x + space : items[i].x;
              
-            items[i].y = this.menu.y + 16;
+            items[i].y = this.menu.y + tinydefence.constants.TILE_HEIGHT;
             items[i].visible = true;
+            items[i].alpha = 1;
             tinydefence.game.world.bringToTop(items[i]);
         }
 
         tinydefence.game.add.tween(this.menu)
             .from({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
+
+        this.menu.items.forEach(item => {
+            tinydefence.game.add.tween(item)
+                .from({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
+        });
     }
 
     openMenu(x, y, tile, tower) {
@@ -66,7 +72,7 @@ class Buildmenu {
             // render menu
             let items = [this.buildButton];
             this.showMenu(x, y, items);
-            this.menu.params = {x:x, y:y, tile:tile, tower:0};
+            this.menu.params = {x:x, y:y, tile:tile, tower:'Cannon'};
         }
         // show menu for upgrading or selling towers 
         else {
@@ -76,27 +82,36 @@ class Buildmenu {
             this.menu.params = {x:x, y:y, tile:tile, tower:tower};
         }
         
-        this.menu.params = {x:x, y:y, tile:tile, tower:0};
         this.isOpen = true;
     }
     
     closeMenu() {
-        let tween = tinydefence.game.add.tween(this.menu)
-            .to({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
-        
-        tween.onComplete.add(() => {
-            this.menu.items.forEach(item => item.visible = false);
-            this.menu.destroy();
-            this.isOpen = false;
-        }, this);
+        if(this.menu !== undefined) {
+            let tween = tinydefence.game.add.tween(this.menu)
+                .to({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
+                
+            this.menu.items.forEach(item => {
+                    tinydefence.game.add.tween(item)
+                        .to({alpha: 0, y: this.menu.y - 15}, 200, Phaser.Easing.Cubic.Out, true);
+            });
+            
+            tween.onComplete.add(() => {
+                this.menu.items.forEach(item => item.visible = false);
+                this.menu.destroy();
+                this.isOpen = false;
+            }, this);
+        }
     }
 
     /** args: (towerType, x, y) */
     onBuildTower(callback) {
         this.buildTowerCallback = callback;
-        this.buildButton = tinydefence.game.add.button(0, 0, 'Cannon', () => {
+
+        let key = tinydefence.towerManager.getTowerType('Cannon').tiers[0].spritesheet_tower;
+
+        this.buildButton = tinydefence.game.add.button(0, 0, key, () => {
             let params = this.menu.params;
-            this.buildTowerCallback(0, params.x, params.y);
+            this.buildTowerCallback(params.tower, params.x, params.y);
         }, this, 0, 0, 0);
         this.buildButton.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.buildButton.visible = false;
