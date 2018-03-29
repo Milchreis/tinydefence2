@@ -44,6 +44,8 @@ tinydefence.rungame = {
             tinydefence.constants.TILE_WIDTH * tinydefence.scalefactor, 
             tinydefence.constants.TILE_HEIGHT * tinydefence.scalefactor, 
             30, 15, mapdata, waypointdata, this.game, this.model);
+
+        tinydefence.game.world.bringToTop(tinydefence.game.ui.buttonCoverage);
     },
 
     nextWaveOrLevel() {
