@@ -42,6 +42,7 @@ class DefenceGame {
         enemy.speed = enemySpeed || enemy.speed;
         enemy.points = points || enemy.points;
         enemy.onTargetReached(() => this.model.lives -= 1);
+
         this.enemies.push(enemy);
     }
 

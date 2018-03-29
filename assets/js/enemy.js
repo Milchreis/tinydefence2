@@ -33,10 +33,13 @@ class Enemy {
             this.animationManager.add('walkDown', [0, 1, 2, 3], 8, true);
         }
 
-        this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+        //this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+        this.game.physics.arcade.enable(this.sprite, Phaser.Physics.ARCADE);
+        this.sprite.body.setSize(32, 32, 0, 0);
+
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.body.immovable = true;
+        //this.sprite.body.immovable = true;
         this.sprite.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
 
         this.sprite.health = this.maxhealth;
@@ -48,6 +51,8 @@ class Enemy {
 
     update() {
         this.graphics.clear();
+        
+        console.log(this.game.physics.arcade.collide(this.sprite, tinydefence.mapTest.tilemapLayers.collision));
 
         if(!this.sprite.visible)
         return;
@@ -60,93 +65,83 @@ class Enemy {
         let x = Math.floor(this.sprite.body.x);
         let y = Math.floor(this.sprite.body.y);
 
-        let deltaX = this.nextWaypoint[0] - x;
-        let deltaY = this.nextWaypoint[1] - y;
+        this.sprite.body.velocity.x = this.speed
+        this.sprite.body.velocity.y = this.speed
 
-        if(deltaX == 0) {
-            this.sprite.body.velocity.x = 0
-        } else if (deltaX > 0) {
-            this.sprite.body.velocity.x = this.speed
-        } else if(deltaX < 0) {
-            this.sprite.body.velocity.x = -this.speed
-        };
+        // let deltaX = this.nextWaypoint[0] - x;
+        // let deltaY = this.nextWaypoint[1] - y;
 
-        if(deltaY == 0) {
-            this.sprite.body.velocity.y = 0
-        } else if(deltaY > 0) {
-            this.sprite.body.velocity.y = this.speed
-        } else if(deltaY < 0) {
-             this.sprite.body.velocity.y = -this.speed
-        };
+        // if(deltaX == 0) {
+        //     this.sprite.body.velocity.x = 0
+        // } else if (deltaX > 0) {
+        //     this.sprite.body.velocity.x = this.speed
+        // } else if(deltaX < 0) {
+        //     this.sprite.body.velocity.x = -this.speed
+        // };
 
-        if(this.dirX > 0 && deltaX <= 0) {
-            this.sprite.body.velocity.x = 0;
-            this.sprite.body.x = this.nextWaypoint[0]
-        }
+        // if(deltaY == 0) {
+        //     this.sprite.body.velocity.y = 0
+        // } else if(deltaY > 0) {
+        //     this.sprite.body.velocity.y = this.speed
+        // } else if(deltaY < 0) {
+        //      this.sprite.body.velocity.y = -this.speed
+        // };
 
-        if(this.dirX < 0 && deltaX >= 0) {
-            this.sprite.body.velocity.x = 0;
-            this.sprite.body.x = this.nextWaypoint[0]
-        }
+        // if(this.dirX > 0 && deltaX <= 0) {
+        //     this.sprite.body.velocity.x = 0;
+        //     this.sprite.body.x = this.nextWaypoint[0]
+        // }
 
-         if(this.dirY > 0 && deltaY <= 0) {
-            this.sprite.body.velocity.y = 0;
-            this.sprite.body.y = this.nextWaypoint[1]
-        }
+        // if(this.dirX < 0 && deltaX >= 0) {
+        //     this.sprite.body.velocity.x = 0;
+        //     this.sprite.body.x = this.nextWaypoint[0]
+        // }
 
-        if(this.dirY < 0 && deltaY >= 0) {
-            this.sprite.body.velocity.y = 0;
-            this.sprite.body.y = this.nextWaypoint[1]
-        }
+        //  if(this.dirY > 0 && deltaY <= 0) {
+        //     this.sprite.body.velocity.y = 0;
+        //     this.sprite.body.y = this.nextWaypoint[1]
+        // }
 
-        // Next waypoint reached?
-        if(x == this.nextWaypoint[0] && y == this.nextWaypoint[1]) {
-            //this.sprite.body.x = this.nextWaypoint[0]
-            //this.sprite.body.y = this.nextWaypoint[1]
+        // if(this.dirY < 0 && deltaY >= 0) {
+        //     this.sprite.body.velocity.y = 0;
+        //     this.sprite.body.y = this.nextWaypoint[1]
+        // }
 
-            this.waypointIndex += 1;
-            // last waypoint reached?
-            if(this.waypointIndex >= this.waypoints.length) {
-                this.die();
-                this.targetReached = true;
-                if(typeof this.onTargetReachedCallback === 'function') {
-                    this.onTargetReachedCallback();
-                }
-            } else {
-                this.nextWaypoint = this.waypoints[this.waypointIndex];
-            }
+        // // Next waypoint reached?
+        // if(x == this.nextWaypoint[0] && y == this.nextWaypoint[1]) {
+        //     //this.sprite.body.x = this.nextWaypoint[0]
+        //     //this.sprite.body.y = this.nextWaypoint[1]
 
-            this.dirX = this.nextWaypoint[0] - x;
-            this.dirY = this.nextWaypoint[1] - y;
+        //     this.waypointIndex += 1;
+        //     // last waypoint reached?
+        //     if(this.waypointIndex >= this.waypoints.length) {
+        //         this.die();
+        //         this.targetReached = true;
+        //         if(typeof this.onTargetReachedCallback === 'function') {
+        //             this.onTargetReachedCallback();
+        //         }
+        //     } else {
+        //         this.nextWaypoint = this.waypoints[this.waypointIndex];
+        //     }
 
-            if(Math.abs(this.dirX) > Math.abs(this.dirY)) {
-                if(this.dirX >= 0) {
-                    this.animationManager.play('walkRight');
-                } else {
-                    this.animationManager.play('walkLeft');
-                }
-            } else {
-                if(this.dirY >= 0) {
-                    this.animationManager.play('walkDown');
-                } else {
-                    this.animationManager.play('walkUp');
-                }
-            }
+        //     this.dirX = this.nextWaypoint[0] - x;
+        //     this.dirY = this.nextWaypoint[1] - y;
 
-        } /*else {
-            // Move to waypoint
-            if(x < this.nextWaypoint[0]) {
-                this.walkRight();
-            } else if(x > this.nextWaypoint[0]) {
-                this.walkLeft();
-            }
+        //     if(Math.abs(this.dirX) > Math.abs(this.dirY)) {
+        //         if(this.dirX >= 0) {
+        //             this.animationManager.play('walkRight');
+        //         } else {
+        //             this.animationManager.play('walkLeft');
+        //         }
+        //     } else {
+        //         if(this.dirY >= 0) {
+        //             this.animationManager.play('walkDown');
+        //         } else {
+        //             this.animationManager.play('walkUp');
+        //         }
+        //     }
 
-            if(y < this.nextWaypoint[1]) {
-                this.walkDown();
-            } else if(y > this.nextWaypoint[1]) {
-                this.walkUp();
-            }
-        }*/
+        // }
 
         // Draw health bar
         if(this.sprite.health > 0 && this.sprite.body !== null) {

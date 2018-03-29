@@ -22,7 +22,7 @@ class Map {
 
         this.keyData = `data_${Map.count}`;
         let pathFileData = `${this.pathDirMap}\\data.json`;
-        this.game.load.JSON(this.keyData, pathFileData);
+        this.game.load.json(this.keyData, pathFileData);
 
         Map.count += 1;
     }
@@ -37,6 +37,9 @@ class Map {
 
     getTile(x, y, nameLayer) {
         let layer = this.tilemapLayers[nameLayer];
+        if(layer == undefined) {
+            throw "Layer nicht bekannt."
+        };
 
         return this.tilemap.getTile(x, y, layer);
     }
@@ -45,14 +48,20 @@ class Map {
         this.tilemap = this.game.add.tilemap(this.keyTilemap);
 
         this.tilemapLayers = {
-            'Level': this.tilemap.createLayer('Level'),
-            'Waypoints': this.tilemap.createLayer('Waypoints')
+            'level': this.tilemap.createLayer('Level'),
+            'collision': this.tilemap.createLayer('Waypoints')
         };
 
-        this.tilemapLayers.Waypoints.visible = false;
+        for (let layer in this.tilemapLayers) {
+            this.tilemapLayers[layer].scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
+        }
+
+        this.tilemap.setCollisionBetween(25, 28, true, this.tilemapLayers.collision)
+
+        //this.tilemapLayers.collision.visible = false;
     
         //this.data = this.game.cache.getTilemapData(this.keyTilemap).data;
-        this.data = this.game.cache.JSON(this.keyData)
+        this.data = this.game.cache.getJSON(this.keyData)
 
         let keyTileset = this.tilemap.tilesets[0].name;
         this.tilemap.addTilesetImage(keyTileset, this.keySprite);

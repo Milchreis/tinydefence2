@@ -27,9 +27,11 @@ tinydefence.rungame = {
     },
 
     createMap() {
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
         // Load current map
         tinydefence.mapTest.setActive();
-        console.log(tinydefence.mapTest.getTile(1, 1, "Waypoints").index);
+        console.log(tinydefence.mapTest.getTile(1, 1, "collision").index);
 
         this.currentMap = tinydefence.maps[this.model.currentMapIndex];
         

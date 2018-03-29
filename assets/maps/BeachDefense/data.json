@@ -1,0 +1,45 @@
+{
+	"label": "Level 1",
+	"lives": 10,
+	"layers": [
+		{
+			"type": "graphics"
+		},
+		{
+			"type": "waypoints",
+			"start": {"x": 0, "y": 1},
+			"way": 2,
+			"end": {"x": 16, "y": 14}
+		}
+	],
+	"waves": [
+		{
+			"enemies": [
+				{
+					"layer": 1,
+					"delay": null,
+					"type": "enemy",
+					"health": 10,
+					"amount": 2,
+					"reward": 5,
+					"speed": 20,
+					"spawnInterval": 1500
+				}
+			]
+		},
+		{
+			"enemies": [
+				{
+					"layer": 1,
+					"delay": null,
+					"type": "enemy",
+					"health": 20,
+					"amount": 4,
+					"reward": 5,
+					"speed": 40,
+					"spawnInterval": 1500
+				}
+			]
+		}
+	]
+}
