@@ -33,7 +33,11 @@ class DefenceGame {
         tinydefence.game.ui.buildmenu.onBuildTower((towerType, x, y) => {
 
             let coords = this.screenToTileCoords(x, y);
-            let tower = tinydefence.towerManager.getTowerType(towerType);
+
+            let tower = new Tower(this.game, 
+                coords.x * this.twidth, 
+                coords.y * this.twidth, 
+                tinydefence.towerManager.getTowerType('Cannon'));
             
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");
@@ -59,13 +63,27 @@ class DefenceGame {
         });
 
         tinydefence.game.ui.buildmenu.onSellTower((tower, x, y) => {
+            
+            let coords = this.screenToTileCoords(x, y);
+            this.removeTower(tower, coords.x, coords.y);
 
+            let salePrice = Math.floor(tower.attr.price * 0.5);
+            this.model.money += salePrice;
+
+            let overlay = new UIOverlay(x, y, "+"+salePrice, this.game, 32);
+            tinydefence.game.ui.addOverlay(overlay.start());
         });
     }
 
     addTower(tower, x, y) {
         this.set(tower, x, y, this.towermap);
         this.towers.push(tower);
+    }
+    
+    removeTower(tower, x, y) {
+        this.set(undefined, x, y, this.towermap);
+        this.towers = this.towers.filter(e => e !== tower);
+        tower.sprite.destroy();
     }
 
     addEnemy(health, enemySpeed, points, type) {
@@ -154,7 +172,7 @@ class DefenceGame {
             let tower = this.get(x, y, this.towermap);
             tinydefence.game.ui.buildmenu.openMenu(
                 (x * this.twidth) + (this.twidth/2), 
-                (y * this.theight)+ this.theight, 
+                (y * this.theight), 
                 tile, tower);
 
         } else {
