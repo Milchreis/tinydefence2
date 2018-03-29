@@ -20,6 +20,10 @@ class Map {
         let pathFileSprite = `${this.pathDirMap}\\map.png`;
         this.game.load.image(this.keySprite, pathFileSprite);
 
+        this.keyData = `data_${Map.count}`;
+        let pathFileData = `${this.pathDirMap}\\data.json`;
+        this.game.load.JSON(this.keyData, pathFileData);
+
         Map.count += 1;
     }
 
@@ -48,6 +52,7 @@ class Map {
         this.tilemapLayers.Waypoints.visible = false;
     
         //this.data = this.game.cache.getTilemapData(this.keyTilemap).data;
+        this.data = this.game.cache.JSON(this.keyData)
 
         let keyTileset = this.tilemap.tilesets[0].name;
         this.tilemap.addTilesetImage(keyTileset, this.keySprite);
