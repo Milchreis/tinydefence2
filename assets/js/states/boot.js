@@ -4,6 +4,9 @@ tinydefence.boot = {
 
 	preload: function() {
 		this.game.load.image("loading", "assets/images/loading.png");
+
+		// Create tower manager
+		tinydefence.towerManager = new TowerManager(this.game);
 	},
   
 	create: function() {

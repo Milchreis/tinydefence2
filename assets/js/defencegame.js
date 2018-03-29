@@ -33,7 +33,7 @@ class DefenceGame {
         tinydefence.game.ui.buildmenu.onBuildTower((towerType, x, y) => {
 
             let coords = this.screenToTileCoords(x, y);
-            let tower = new Tower(this.game, coords.x * this.twidth, coords.y * this.theight, towerType);
+            let tower = tinydefence.towerManager.getTowerType(towerType);
             
             if(this.model.money >= tower.getPrice(tower.tier)) {
                 console.log("Buy new tower");
@@ -124,7 +124,7 @@ class DefenceGame {
         // Update enemies
         this.enemies.filter(e => e.sprite.health <= 0.0).forEach(e => {
             // Show price
-            let overlay = new UIOverlay(e.sprite.body.x + e.sprite.width/2 , e.sprite.body.y + e.sprite.height/2, e.points+"$", this.game);
+            let overlay = new UIOverlay(e.sprite.body.x + e.sprite.width/2 , e.sprite.body.y + e.sprite.height/2, "+" + e.points, this.game);
             tinydefence.game.ui.addOverlay(overlay.start());
 
             e.die();

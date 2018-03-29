@@ -94,7 +94,7 @@ class Buildmenu {
     /** args: (towerType, x, y) */
     onBuildTower(callback) {
         this.buildTowerCallback = callback;
-        this.buildButton = tinydefence.game.add.button(0, 0, 'Cannon_0_tower', () => {
+        this.buildButton = tinydefence.game.add.button(0, 0, 'Cannon', () => {
             let params = this.menu.params;
             this.buildTowerCallback(0, params.x, params.y);
         }, this, 0, 0, 0);
