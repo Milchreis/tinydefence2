@@ -33,12 +33,6 @@ class TowerManager {
 	}
 
 	getTowerType(typeName) {
-		let result;
-		this.towerTypes.forEach(tower => {
-			if (tower.key === typeName) {
-				result = tower;
-			}
-		});
-		return result;
+		return this.towerTypes.find(tower => tower.key === typeName);
 	}
 }
