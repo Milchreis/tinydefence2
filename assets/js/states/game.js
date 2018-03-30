@@ -8,6 +8,10 @@ tinydefence.rungame = {
     create: function() {
         // Set cavans background
         this.game.stage.backgroundColor = "#1e1a17";
+
+        this.game.time.advancedTiming = true;
+        this.game.time.desiredFps = 60;
+        this.game.time.slowMotion = 1.0;
         
         // Create a copy of the intial game settings
         this.model = {
@@ -156,4 +160,17 @@ tinydefence.rungame = {
             this.gameEnd = true;
         }
     },  
+
+    render: function() {
+
+        if(tinydefence.constants.DEBUG) {
+            this.game.debug.text('render FPS: ' + (this.game.time.fps || '--') , 2, 14, "#00ff00");
+        
+            if (this.game.time.suggestedFps !== null) {
+                this.game.debug.text('suggested FPS: ' + this.game.time.suggestedFps, 2, 28, "#00ff00");
+                this.game.debug.text('desired FPS: ' +   this.game.time.desiredFps, 2, 42, "#00ff00");
+            }
+        
+        }
+    }
 }

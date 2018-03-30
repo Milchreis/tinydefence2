@@ -5,6 +5,16 @@ class Buildmenu {
         this.buildTowerCallback = null;
         this.upgradeTowerCallback = null;
         this.sellTowerCallback = null;
+
+        this.hoverBuildTowerCallback = null;
+        this.hoverOutBuildTowerCallback = null;
+        
+        this.hoverUpgradeTowerCallback = null;
+        this.hoverOutUpgradeTowerCallback = null;
+        
+        this.hoverSellTowerCallback = null;
+        this.hoverOutSellTowerCallback = null;
+
         this.isOpen = false;
         this.menu;
     }
@@ -113,8 +123,20 @@ class Buildmenu {
             let params = this.menu.params;
             this.buildTowerCallback(params.tower, params.x, params.y);
         }, this, 0, 0, 0);
+
         this.buildButton.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.buildButton.visible = false;
+        this.buildButton.onInputOver.add(() => {
+            if(this.hoverBuildTowerCallback !== null) {
+                this.hoverBuildTowerCallback(this.menu.params.tower);
+            }
+        }, this);
+
+        this.buildButton.onInputOut.add(() => {
+            if(this.hoverOutBuildTowerCallback !== null) {
+                this.hoverOutBuildTowerCallback();
+            }
+        }, this);
     }
     
     /** args: (tower, x, y) */
@@ -124,8 +146,20 @@ class Buildmenu {
             let params = this.menu.params;
             this.upgradeTowerCallback(params.tower, params.x, params.y);
         }, this, 1, 1, 1);
+
         this.upgradeButton.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.upgradeButton.visible = false;
+        this.upgradeButton.onInputOver.add(() => {
+            if(this.hoverUpgradeTowerCallback !== null) {
+                this.hoverUpgradeTowerCallback(this.menu.params.tower);
+            }
+        }, this);
+
+        this.upgradeButton.onInputOut.add(() => {
+            if(this.hoverOutUpgradeTowerCallback !== null) {
+                this.hoverOutUpgradeTowerCallback();
+            }
+        }, this);
     }
     
     /** args: (tower) */
@@ -135,8 +169,35 @@ class Buildmenu {
             let params = this.menu.params;
             this.sellTowerCallback(params.tower, params.x, params.y);
         }, this, 2, 2, 2);
+
         this.sellButton.scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         this.sellButton.visible = false;
+        this.sellButton.onInputOver.add(() => {
+            if(this.hoverSellTowerCallback !== null) {
+                this.hoverSellTowerCallback(this.menu.params.tower);
+            }
+        }, this);
+
+        this.sellButton.onInputOut.add(() => {
+            if(this.hoverOutSellTowerCallback !== null) {
+                this.hoverOutSellTowerCallback();
+            }
+        }, this);
+    }
+
+    onHoverBuildTower(overCallback, outCallback) {
+        this.hoverBuildTowerCallback = overCallback;
+        this.hoverOutBuildTowerCallback = outCallback;
+    }
+
+    onHoverUpgradeTower(overCallback, outCallback) {
+        this.hoverUpgradeTowerCallback = overCallback;
+        this.hoverOutUpgradeTowerCallback = outCallback;
+    }
+    
+    onHoverSellTower(overCallback, outCallback) {
+        this.hoverSellTowerCallback = overCallback;
+        this.hoverOutSellTowerCallback = outCallback;
     }
 
 }
