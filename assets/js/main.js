@@ -18,7 +18,7 @@ tinydefence.game.state.add("Game", tinydefence.rungame);
 tinydefence.constants = {
     TILE_WIDTH: 16,
     TILE_HEIGHT: 16,
-    DEBUG: true,
+    DEBUG: false,
     SELL_RATIO: 0.85
 }
 
