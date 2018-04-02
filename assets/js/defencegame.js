@@ -28,6 +28,7 @@ class DefenceGame {
         this.selector.animations.play('idle');
 
         this.wasButtonDown = false;
+
     }
 
     addTower(tower, x, y) {

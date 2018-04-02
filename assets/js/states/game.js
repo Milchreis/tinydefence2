@@ -31,7 +31,8 @@ tinydefence.rungame = {
 
         // Load current map
         tinydefence.mapTest.setActive();
-        console.log(tinydefence.mapTest.getTile(1, 1, "collision").index);
+        console.log(tinydefence.mapTest.getTile(0, 0, "collision").index);
+
 
         this.currentMap = tinydefence.maps[this.model.currentMapIndex];
         
