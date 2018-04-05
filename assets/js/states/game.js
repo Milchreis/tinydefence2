@@ -8,6 +8,10 @@ tinydefence.rungame = {
     create: function() {
         // Set cavans background
         this.game.stage.backgroundColor = "#1e1a17";
+
+        this.game.time.advancedTiming = true;
+        this.game.time.desiredFps = 60;
+        this.game.time.slowMotion = 1.0;
         
         // Create a copy of the intial game settings
         this.model = {
@@ -17,13 +21,14 @@ tinydefence.rungame = {
             lives: tinydefence.game.model.lives,
         }
         
+        tinydefence.game.ui = new UI(tinydefence.game);
+        
         this.gameEnd = false;
        
         this.createMap();
 
         this.model.currentWave = -1;
         this.nextWaveOrLevel();
-        tinydefence.game.ui = new UI(tinydefence.game);
     },
 
     createMap() {
@@ -39,7 +44,12 @@ tinydefence.rungame = {
         let mapdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[0].data;
         let waypointdata = this.game.cache.getTilemapData(this.currentMap.key).data.layers[1].data;
 
-        this.defencegame = new DefenceGame(16 * tinydefence.scalefactor, 16 * tinydefence.scalefactor, 30, 15, mapdata, waypointdata, this.game, this.model);
+        this.defencegame = new DefenceGame(
+            tinydefence.constants.TILE_WIDTH * tinydefence.scalefactor, 
+            tinydefence.constants.TILE_HEIGHT * tinydefence.scalefactor, 
+            30, 15, mapdata, waypointdata, this.game, this.model);
+
+        tinydefence.game.world.bringToTop(tinydefence.game.ui.buttonCoverage);
     },
 
     nextWaveOrLevel() {
@@ -150,4 +160,17 @@ tinydefence.rungame = {
             this.gameEnd = true;
         }
     },  
+
+    render: function() {
+
+        if(tinydefence.constants.DEBUG) {
+            this.game.debug.text('render FPS: ' + (this.game.time.fps || '--') , 2, 14, "#00ff00");
+        
+            if (this.game.time.suggestedFps !== null) {
+                this.game.debug.text('suggested FPS: ' + this.game.time.suggestedFps, 2, 28, "#00ff00");
+                this.game.debug.text('desired FPS: ' +   this.game.time.desiredFps, 2, 42, "#00ff00");
+            }
+        
+        }
+    }
 }

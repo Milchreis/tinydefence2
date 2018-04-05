@@ -45,6 +45,8 @@ class UI {
 
         this.buttonCoverage.onInputOver.add(() => this.isOverMenu = true, this);
         this.buttonCoverage.onInputOut.add(() => this.isOverMenu = false, this);
+
+        this.buildmenu = new Buildmenu();
     }
 
     isCursorOverMenu() {

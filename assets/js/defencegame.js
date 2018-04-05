@@ -28,11 +28,20 @@ class DefenceGame {
         this.selector.animations.play('idle');
 
         this.wasButtonDown = false;
+
+        // Events for build menu
+        this.initBuildmenuButtons();
     }
 
     addTower(tower, x, y) {
         this.set(tower, x, y, this.towermap);
         this.towers.push(tower);
+    }
+    
+    removeTower(tower, x, y) {
+        this.set(undefined, x, y, this.towermap);
+        this.towers = this.towers.filter(e => e !== tower);
+        tower.sprite.destroy();
     }
 
     addEnemy(health, enemySpeed, points, type) {
@@ -68,20 +77,6 @@ class DefenceGame {
             let tower = this.get(x, y, this.towermap);
             if(tower !== undefined) {
                 tower.onHover();
-
-                // Price for upgrade
-                let price = tower.tier < tower.maxTier ? tower.getPrice(tower.tier + 1) : 'maxed';
-                tinydefence.game.ui.setPrice(price,
-                    Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
-            }
-            // Look for free field
-            else if (this.isFieldFree(x, y))
-            {
-                tinydefence.game.ui.setPrice(50, 50 <= this.model.money ? 'green' : 'red');
-            }
-            else
-            {
-                tinydefence.game.ui.setPrice(null);
             }
         } else {
             // Selector is not visible if the pointer is over a menu
@@ -114,29 +109,18 @@ class DefenceGame {
     }
 
     onClick(x, y) {
-        if(this.isFieldFree(x, y)) {
-            // TODO get tower by type key instead of hard coded index 0
-            let tower = new Tower(this.game, x * this.twidth, y * this.twidth, tinydefence.towerManager.getTowerType('Cannon'));
-
-            if(this.model.money >= tower.getPrice(tower.tier)) {
-                console.log("Buy new tower");
-                tower.build();
-                this.addTower(tower, x, y);
-                this.model.money -= tower.getPrice(tower.tier);
-            } else {
-                console.log("Not enougth money");
-                tower = {};
-            }
-        }
-        else if (this.isTower(x, y)) {
+        
+        if(!tinydefence.game.ui.buildmenu.isOpen && (this.isFieldFree(x, y) || this.isTower(x, y))) {
+            // open build menu for free fields
+            let tile = this.get(x, y, this.map);
             let tower = this.get(x, y, this.towermap);
-            if(tower.tier < tower.maxTier && this.model.money >= tower.getPrice(tower.tier + 1)) {
-                console.log("Buy tower upgrade");
-                tower.upgrade();
-                this.model.money -= tower.getPrice(tower.tier);
-            } else {
-                console.log("Not enougth money");
-            }
+            tinydefence.game.ui.buildmenu.openMenu(
+                (x * this.twidth) + (this.twidth/2), 
+                (y * this.theight), 
+                tile, tower);
+
+        } else {
+            tinydefence.game.ui.buildmenu.closeMenu();
         }
     }
 
@@ -175,12 +159,108 @@ class DefenceGame {
     }
 
     getCursor() {
-        let x = Math.floor((this.game.input.x * this.game.scale.parentScaleFactor.x) / (this.twidth));
-        let y = Math.floor((this.game.input.y * this.game.scale.parentScaleFactor.y) / (this.theight)); 
+        return(this.screenToTileCoords(this.game.input.x, this.game.input.y));
+    }
+
+    screenToTileCoords(xscreen, yscreen) {
+        let x = Math.floor((xscreen * this.game.scale.parentScaleFactor.x) / (this.twidth));
+        let y = Math.floor((yscreen * this.game.scale.parentScaleFactor.y) / (this.theight)); 
         // Contraints
         x = x >= this.width || x < 0 ? null : x; 
         y = y >= this.height || y < 0 ? null : y; 
 
         return {x: x, y: y};
+    }
+
+    initBuildmenuButtons() {
+
+        tinydefence.game.ui.buildmenu.onBuildTower((towerType, x, y) => {
+
+            let coords = this.screenToTileCoords(x, y);
+
+            let tower = new Tower(this.game, 
+                coords.x * this.twidth, 
+                coords.y * this.twidth, 
+                tinydefence.towerManager.getTowerType('Cannon'));
+            
+            if(this.model.money >= tower.getPrice(tower.tier)) {
+                console.log("Buy new tower");
+                tower.build();
+                this.addTower(tower, coords.x, coords.y);
+                this.model.money -= tower.getPrice(tower.tier);
+            } else {
+                console.log("Not enougth money");
+                tower = {};
+            }
+        });
+        
+        tinydefence.game.ui.buildmenu.onUpgradeTower((tower, x, y) => {
+
+            if(this.model.money >= tower.getPrice(tower.tier + 1) && tower.tier < tower.maxTier) {
+                console.log("Buy tower upgrade");
+                tower.upgrade();
+                this.model.money -= tower.getPrice(tower.tier);
+            } else {
+                console.log("Not enougth money");
+            }
+
+        });
+
+        tinydefence.game.ui.buildmenu.onSellTower((tower, x, y) => {
+            
+            let coords = this.screenToTileCoords(x, y);
+            this.removeTower(tower, coords.x, coords.y);
+
+            let salePrice = tower.getWorth();
+            this.model.money += salePrice;
+
+            let overlay = new UIOverlay(x, y, "+"+salePrice, this.game, 32);
+            tinydefence.game.ui.addOverlay(overlay.start());
+        });
+
+        tinydefence.game.ui.buildmenu.onHoverBuildTower(
+            // On hover
+            (towerType) => {
+                let tower =  tinydefence.towerManager.getTowerType(towerType);
+                let price = tower.tiers[0].attributes.price;
+                tinydefence.game.ui.setPrice(price,
+                    Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
+            }, 
+            // On out
+            () => {
+                tinydefence.game.ui.setPrice(null);
+            }
+        );
+            
+        tinydefence.game.ui.buildmenu.onHoverUpgradeTower(
+            // On hover
+            (tower) => {
+                if(tower.tier + 1 <= tower.maxTier) {
+                    let price = tower.type.tiers[tower.tier + 1].attributes.price;
+                    tinydefence.game.ui.setPrice(price,
+                        Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
+                }
+                else
+                {
+                	tinydefence.game.ui.setPrice('max', 'red');
+                }
+            }, 
+            // On out
+            () => {
+                tinydefence.game.ui.setPrice(null);
+            }
+        );
+            
+        tinydefence.game.ui.buildmenu.onHoverSellTower(
+            // On hover
+            (tower) => {
+                tinydefence.game.ui.setPrice("+" + tower.getWorth());
+            }, 
+            // On out
+            () => {
+                tinydefence.game.ui.setPrice(null);
+            }
+        );
+
     }
 }
