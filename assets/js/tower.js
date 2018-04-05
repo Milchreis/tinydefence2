@@ -8,7 +8,6 @@ class Tower {
         this.type = type;
         this.tier = 0;
         
-        // TODO get tower by type key instead of index
         this.color = this.type.color;
         this.maxTier = this.type.tiers.length - 1;
         this.init();
@@ -21,7 +20,6 @@ class Tower {
 
     init()
     {
-        // TODO get tower by type key instead of index
         this.attr = this.type.tiers[this.tier].attributes;
         this.towerSprite = this.type.tiers[this.tier].spritesheet_tower;
         this.shotSprite = this.type.tiers[this.tier].spritesheet_shot;
@@ -38,7 +36,6 @@ class Tower {
         // Remove hover effect
         this.graphics.clear();
         this.statsText.setText("");
-        // this.game.upgradePriceText.setText("");
 
         // Enemy still in range?
         if(this.focusedEnemy !== undefined) {
