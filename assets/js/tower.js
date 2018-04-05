@@ -160,7 +160,14 @@ class Tower {
     }
 
     getPrice(tier) {
-        // TODO get tower by type key instead of index
         return this.type.tiers[tier].attributes.price;
+    }
+
+    getWorth() {
+        let worth = this.type.tiers
+            .filter((t, i) => i <= this.tier)
+            .reduce((accu, tier) => accu + tier.attributes.price, 0);
+
+        return Math.floor(worth * tinydefence.constants.SELL_RATIO);
     }
 }

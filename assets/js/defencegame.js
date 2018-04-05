@@ -7,8 +7,6 @@ class DefenceGame {
         this.theight = tileHeight || 16;
         this.width = width;
         this.height = height;
-
-        this.sellRatio = tinydefence.constants.SELL_RATIO;
         
         this.map = map;
         this.waypointData = waypointData;
@@ -213,11 +211,7 @@ class DefenceGame {
             let coords = this.screenToTileCoords(x, y);
             this.removeTower(tower, coords.x, coords.y);
 
-            let costs = tower.type.tiers
-                .filter((t, i) => i <= tower.tier)
-                .reduce((accu, tier) => accu + tier.attributes.price, 0);
-
-            let salePrice = Math.floor(costs * this.sellRatio);
+            let salePrice = tower.getWorth();
             this.model.money += salePrice;
 
             let overlay = new UIOverlay(x, y, "+"+salePrice, this.game, 32);
@@ -256,12 +250,7 @@ class DefenceGame {
         tinydefence.game.ui.buildmenu.onHoverSellTower(
             // On hover
             (tower) => {
-                let costs = tower.type.tiers
-                    .filter((t, i) => i <= tower.tier)
-                    .reduce((accu, tier) => accu + tier.attributes.price, 0);
-
-                let salePrice = Math.floor(costs * this.sellRatio);
-                tinydefence.game.ui.setPrice("+" + salePrice, 'green');
+                tinydefence.game.ui.setPrice("+" + tower.getWorth(), 'green');
             }, 
             // On out
             () => {
