@@ -223,7 +223,7 @@ class DefenceGame {
             (towerType) => {
                 let tower =  tinydefence.towerManager.getTowerType(towerType);
                 let price = tower.tiers[0].attributes.price;
-                tinydefence.game.ui.setPrice("-" + price,
+                tinydefence.game.ui.setPrice(price,
                     Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
             }, 
             // On out
@@ -237,8 +237,12 @@ class DefenceGame {
             (tower) => {
                 if(tower.tier + 1 <= tower.maxTier) {
                     let price = tower.type.tiers[tower.tier + 1].attributes.price;
-                    tinydefence.game.ui.setPrice("-" + price,
+                    tinydefence.game.ui.setPrice(price,
                         Number.isInteger(price) && price <= this.model.money ? 'green' : 'red');
+                }
+                else
+                {
+                	tinydefence.game.ui.setPrice('max', 'red');
                 }
             }, 
             // On out
@@ -250,7 +254,7 @@ class DefenceGame {
         tinydefence.game.ui.buildmenu.onHoverSellTower(
             // On hover
             (tower) => {
-                tinydefence.game.ui.setPrice("+" + tower.getWorth(), 'green');
+                tinydefence.game.ui.setPrice("+" + tower.getWorth());
             }, 
             // On out
             () => {
