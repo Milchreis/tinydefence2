@@ -125,12 +125,18 @@ class DefenceGame {
     }
 
     drawSelector(x, y) {
-        if(this.isFieldFree(x, y) || this.isTower(x, y)) {
+        // Don't move the selector if the menu is open
+        if(tinydefence.game.ui.buildmenu.isOpen) {
+            return;
+
+        } 
+        // Show selector for possible build fields and for towers
+        else if(this.isFieldFree(x, y) || this.isTower(x, y)) {
             this.selector.visible = true;
             this.selector.body.x = x*this.twidth;
             this.selector.body.y = y*this.theight;
-        }
-         else {
+        
+        } else {
             this.selector.visible = false;
         }
     }
