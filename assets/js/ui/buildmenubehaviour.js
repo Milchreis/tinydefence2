@@ -39,7 +39,7 @@ class BuildMenuBehaviour {
 
         tinydefence.game.ui.buildmenu.onSellTower((tower, x, y) => {
             
-            let coords = this.screenToTileCoords(x, y);
+            let coords = this.defencegame.screenToTileCoords(x, y);
             this.defencegame.removeTower(tower, coords.x, coords.y);
 
             let salePrice = tower.getWorth();
