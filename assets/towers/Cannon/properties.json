@@ -4,10 +4,10 @@
 		{
 			"attributes": {
 				"price": 50,
-				"range": 3.1,
-				"fire_rate": 1000,
-				"bullet_speed": 500,
 				"damage": 2.0,
+				"fire_rate": 1000,
+				"range": 3.1,
+				"bullet_speed": 500,
 				"damage_duration": null,
 				"splash_range": null,
 				"splash_damage": null,
@@ -28,10 +28,82 @@
 		{
 			"attributes": {
 				"price": 75,
-				"range": 3.4,
-				"fire_rate": 800,
-				"bullet_speed": 500,
 				"damage": 4.1,
+				"fire_rate": 800,
+				"range": 3.3,
+				"bullet_speed": 500,
+				"damage_duration": null,
+				"splash_range": null,
+				"splash_damage": null,
+				"slowdown": null,
+				"slowdown_duration": null,
+				"chain_leaps": null,
+				"chain_damage": null
+			},
+			"sprites": {
+				"tower": "tower_1.png",
+				"shot": "bullet_1.png",
+				"hit": null
+			},
+			"sounds": {
+				"shot": "shot_1.png"
+			}
+		},
+		{
+			"attributes": {
+				"price": 125,
+				"damage": 8,
+				"fire_rate": 700,
+				"range": 3.5,
+				"bullet_speed": 500,
+				"damage_duration": null,
+				"splash_range": null,
+				"splash_damage": null,
+				"slowdown": null,
+				"slowdown_duration": null,
+				"chain_leaps": null,
+				"chain_damage": null
+			},
+			"sprites": {
+				"tower": "tower_1.png",
+				"shot": "bullet_1.png",
+				"hit": null
+			},
+			"sounds": {
+				"shot": "shot_1.png"
+			}
+		},
+		{
+			"attributes": {
+				"price": 250,
+				"damage": 16,
+				"fire_rate": 600,
+				"range": 3.7,
+				"bullet_speed": 500,
+				"damage_duration": null,
+				"splash_range": null,
+				"splash_damage": null,
+				"slowdown": null,
+				"slowdown_duration": null,
+				"chain_leaps": null,
+				"chain_damage": null
+			},
+			"sprites": {
+				"tower": "tower_1.png",
+				"shot": "bullet_1.png",
+				"hit": null
+			},
+			"sounds": {
+				"shot": "shot_1.png"
+			}
+		},
+		{
+			"attributes": {
+				"price": 500,
+				"damage": 40,
+				"fire_rate": 600,
+				"range": 3.7,
+				"bullet_speed": 500,
 				"damage_duration": null,
 				"splash_range": null,
 				"splash_damage": null,
