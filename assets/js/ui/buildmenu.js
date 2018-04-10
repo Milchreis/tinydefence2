@@ -87,7 +87,14 @@ class Buildmenu {
         // show menu for upgrading or selling towers 
         else {
             // provide towers depending on tile
-            let items = [this.upgradeButton, this.sellButton];
+            let items = [];
+            // Show upgrade button if its possible
+            if(tower.tier < tower.maxTier) {
+                items.push(this.upgradeButton);
+            }
+            // Show sell button
+            items.push(this.sellButton);
+
             this.showMenu(x, y, items);
             this.menu.params = {x:x, y:y, tile:tile, tower:tower};
         }
