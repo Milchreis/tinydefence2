@@ -1,28 +1,28 @@
 var tinydefence = tinydefence || {};
 
 class Map {
-    constructor(game, pathDirMap) {
-        this.game = game
-
+    constructor(scene, pathDirMap) {
+        this.scene = scene;
         this.pathDirMap = pathDirMap;
 
         this.name = null;
         this.tilemap = null;
+        this.tileset = null;
         this.sprite = null;
     }
 
     preload() {
         this.keyTilemap = `map_${Map.count}`;
         let pathFileJSON = `${this.pathDirMap}\\map.json`;
-        this.game.load.tilemap(this.keyTilemap, pathFileJSON, null, Phaser.Tilemap.TILED_JSON);
+        this.scene.load.tilemapTiledJSON(this.keyTilemap, pathFileJSON);
 
         this.keySprite = `tileset_${Map.count}`;
         let pathFileSprite = `${this.pathDirMap}\\map.png`;
-        this.game.load.image(this.keySprite, pathFileSprite);
+        this.scene.load.image(this.keySprite, pathFileSprite);
 
         this.keyData = `data_${Map.count}`;
         let pathFileData = `${this.pathDirMap}\\data.json`;
-        this.game.load.json(this.keyData, pathFileData);
+        this.scene.load.json(this.keyData, pathFileData);
 
         Map.count += 1;
     }
@@ -45,32 +45,31 @@ class Map {
     }
 
     setActive() {
-        this.tilemap = this.game.add.tilemap(this.keyTilemap);
+        this.tilemap = this.scene.make.tilemap({ key: this.keyTilemap });
+
+        let keyTileset = this.tilemap.tilesets[0].name;
+        this.tileset = this.tilemap.addTilesetImage(keyTileset, this.keySprite);
 
         this.tilemapLayers = {
-            'level': this.tilemap.createLayer('Level'),
-            'collision': this.tilemap.createLayer('Waypoints')
+            'level': this.tilemap.createStaticLayer('Level', this.tileset, 0, 0),
+            'collision': this.tilemap.createStaticLayer('Waypoints', this.tileset, 0, 0)
         };
 
         for (let layer in this.tilemapLayers) {
-            //this.tilemapLayers[layer].scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
+            this.tilemapLayers[layer].scale.setTo(tinydefence.scalefactor, tinydefence.scalefactor);
         }
 
 
-        this.tilemap.setCollisionByExclusion([28], true, this.tilemapLayers.collision);
+        //this.tilemap.setCollisionByExclusion([28], true, this.tilemapLayers.collision);
 
         //this.tilemapLayers.collision.visible = false;
-    
-        //this.data = this.game.cache.getTilemapData(this.keyTilemap).data;
-        this.data = this.game.cache.getJSON(this.keyData);
 
-        let keyTileset = this.tilemap.tilesets[0].name;
-        this.tilemap.addTilesetImage(keyTileset, this.keySprite);
+        this.data = this.scene.cache.json.get(this.keyData);
     }
 }
 Map.count = 0;
 
-tinydefence.Map = Map
+tinydefence.Map = Map;
 
 tinydefence.maps = [
     
