@@ -21,13 +21,13 @@ class TowerManager {
 		    tower.tiers = towerProperties.tiers;
 
 		    towerProperties.tiers.forEach((tier, i) => {
-			// TODO tier specific spritesheets
-			let path = 'assets/towers/' + tower.key + '/';
-			tier.spritesheet_tower = tower.key + '_' + i  + '_spritesheet_tower';
-			tier.spritesheet_shot = tower.key + '_' + i  + '_spritesheet_shot';
+				// TODO tier specific spritesheets
+				let path = 'assets/towers/' + tower.key + '/';
+				tier.spritesheet_tower = tower.key + '_' + i  + '_spritesheet_tower';
+				tier.spritesheet_shot = tower.key + '_' + i  + '_spritesheet_shot';
 
-			this.game.load.spritesheet(tier.spritesheet_tower, path + tier.sprites.tower, 16, 16);
-			this.game.load.image(tier.spritesheet_shot, path + tier.sprites.shot);
+				this.game.load.spritesheet(tier.spritesheet_tower, path + tier.sprites.tower, 16, 16);
+				this.game.load.image(tier.spritesheet_shot, path + tier.sprites.shot);
 		    });
 		});
 	}
