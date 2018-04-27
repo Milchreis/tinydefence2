@@ -154,6 +154,7 @@ class Tower {
         console.log("Upgrading tower to level " + (this.tier + 2));
         this.tier ++;
         this.init();
+        this.build();
     }
 
     getPrice(tier) {
