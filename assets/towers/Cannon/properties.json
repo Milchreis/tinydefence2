@@ -41,7 +41,7 @@
 				"chain_damage": null
 			},
 			"sprites": {
-				"tower": "tower_1.png",
+				"tower": "tower_2.png",
 				"shot": "bullet_1.png",
 				"hit": null
 			},
@@ -65,7 +65,7 @@
 				"chain_damage": null
 			},
 			"sprites": {
-				"tower": "tower_1.png",
+				"tower": "tower_3.png",
 				"shot": "bullet_1.png",
 				"hit": null
 			},
@@ -89,7 +89,7 @@
 				"chain_damage": null
 			},
 			"sprites": {
-				"tower": "tower_1.png",
+				"tower": "tower_4.png",
 				"shot": "bullet_1.png",
 				"hit": null
 			},
@@ -113,7 +113,7 @@
 				"chain_damage": null
 			},
 			"sprites": {
-				"tower": "tower_1.png",
+				"tower": "tower_5.png",
 				"shot": "bullet_1.png",
 				"hit": null
 			},
